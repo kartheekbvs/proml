@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phase 2: Web, HTTP & ASGI - The Foundation of Modern ML APIs</title>
+    <title>Phase 2 Extreme: Web Ecosystem & Async Architectures</title>
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Code Highlighting -->
+    <!-- Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
@@ -16,23 +16,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/json.min.js"></script>
     <style>
         :root {
-            --bg-color: #0f1117;
-            --surface-color: #1a1d27;
-            --border-color: #2a2d3e;
-            --text-primary: #e2e8f0;
+            --bg-color: #0d0f14;
+            --surface-color: #161e2e;
+            --border-color: #2d3748;
+            --text-primary: #f1f5f9;
             --text-secondary: #94a3b8;
             --accent-color: #10b981;
-            --accent-hover: #059669;
-            --code-bg: #161b22;
-            --sidebar-width: 300px;
-            --header-height: 5px;
-            --warning-border: #f59e0b;
-            --warning-bg: rgba(245, 158, 11, 0.1);
-            --success-border: #10b981;
-            --success-bg: rgba(16, 185, 129, 0.1);
-            --info-border: #3b82f6;
-            --info-bg: rgba(59, 130, 246, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent-glow: rgba(16, 185, 129, 0.4);
+            --code-bg: #011627;
+            --sidebar-width: 340px;
+            --header-height: 8px;
+            --warning: #f59e0b;
+            --success: #10b981;
+            --info: #3b82f6;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         [data-theme="light"] {
@@ -40,554 +37,454 @@
             --surface-color: #f8fafc;
             --border-color: #e2e8f0;
             --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --accent-color: #10b981;
+            --text-secondary: #475569;
             --code-bg: #f1f5f9;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
             line-height: 1.8;
-            font-size: 18px;
+            font-size: 19px;
             transition: var(--transition);
         }
 
-        /* Progress Bar */
-        #progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--header-height);
-            background: transparent;
-            z-index: 1000;
-        }
+        /* Luxury Scroll Bar */
+        #progress-container { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); background: transparent; z-index: 9999; }
+        #progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent-color), #34d399); width: 0%; box-shadow: 0 4px 12px var(--accent-glow); }
 
-        #progress-bar {
-            height: 100%;
-            background: var(--accent-color);
-            width: 0%;
-            transition: width 0.1s ease;
-            box-shadow: 0 0 10px var(--accent-color);
-        }
+        .app-wrapper { display: flex; min-height: 100vh; }
 
-        /* Layout */
-        .wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
+        /* Sidebar Glassmorphism */
         aside {
             width: var(--sidebar-width);
             height: 100vh;
             position: sticky;
             top: 0;
-            background-color: var(--surface-color);
+            background: rgba(22, 30, 46, 0.8);
+            backdrop-filter: blur(16px);
             border-right: 1px solid var(--border-color);
-            padding: 2rem 1.5rem;
+            padding: 3rem 2rem;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
             overflow-y: auto;
-            z-index: 100;
+            z-index: 1000;
         }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
+        .sidebar-brand { font-size: 1.4rem; font-weight: 800; color: var(--accent-color); margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 2px; }
+        nav li { list-style: none; margin-bottom: 0.75rem; }
         nav a {
             text-decoration: none;
             color: var(--text-secondary);
             font-size: 0.95rem;
-            padding: 0.6rem 0.8rem;
-            border-radius: 6px;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
             display: block;
             transition: var(--transition);
+            border: 1px solid transparent;
         }
+        nav a:hover, nav a.active { background: var(--bg-color); color: var(--accent-color); border-color: var(--border-color); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        nav a.active { font-weight: 700; background: var(--accent-color); color: white; }
 
-        nav a:hover, nav a.active {
-            background-color: var(--bg-color);
-            color: var(--accent-color);
+        /* Content Engine */
+        main { flex: 1; padding: 6rem 12%; max-width: 1400px; margin: 0 auto; }
+        section { padding-top: 6rem; margin-bottom: 10rem; scroll-margin-top: 5rem; }
+
+        .hero-module { margin-bottom: 8rem; position: relative; }
+        .hero-module h1 { font-size: 4.5rem; line-height: 1; font-weight: 900; margin-bottom: 2rem; color: var(--accent-color); letter-spacing: -3px; }
+        .hero-module .subtitle { font-size: 1.6rem; color: var(--text-secondary); max-width: 850px; }
+
+        h2 { font-size: 3rem; font-weight: 800; margin-bottom: 2.5rem; display: flex; align-items: center; gap: 1rem; }
+        h2::before { content: ""; width: 40px; height: 4px; background: var(--accent-color); border-radius: 2px; }
+        h3 { font-size: 2rem; margin: 4rem 0 1.5rem; color: var(--text-primary); }
+
+        /* Deep Content Boxes */
+        .academic-box { 
+            padding: 3rem; 
+            background: var(--surface-color); 
+            border-radius: 24px; 
+            border: 1px solid var(--border-color); 
+            margin: 4rem 0; 
+            position: relative; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
-
-        nav a.active {
-            font-weight: 600;
-            border-left: 3px solid var(--accent-color);
-            padding-left: calc(0.8rem - 3px);
-        }
-
-        /* Main Content */
-        main {
-            flex: 1;
-            padding: 4rem 10%;
-            max-width: 1200px;
-        }
-
-        section {
-            padding-top: 4rem;
-            margin-bottom: 6rem;
-            scroll-margin-top: 4rem;
-        }
-
-        h1 { font-size: 3.5rem; margin-bottom: 1.5rem; color: var(--accent-color); line-height: 1.1; }
-        h2 { font-size: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
-        h3 { font-size: 1.75rem; margin: 2.5rem 0 1rem; color: var(--accent-color); }
-
-        .box { padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid transparent; }
-        .what-is-this { background-color: var(--info-bg); border-left-color: var(--info-border); }
-        .warning { background-color: var(--warning-bg); border-left-color: var(--warning-border); }
-        .success { background-color: var(--success-bg); border-left-color: var(--success-border); }
-
-        .terminal { background: #000; color: #10b981; font-family: 'Fira Code', monospace; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; position: relative; overflow-x: auto; }
-        .terminal::before { content: "TERMINAL OUTPUT"; position: absolute; top: 5px; right: 10px; font-size: 0.7rem; color: #444; }
-
-        .code-block { position: relative; margin-bottom: 2rem; border-radius: 12px; overflow: hidden; background-color: var(--code-bg); border: 1px solid var(--border-color); }
-        .code-header { padding: 0.5rem 1rem; background: var(--surface-color); display: flex; justify-content: space-between; font-size: 0.8rem; border-bottom: 1px solid var(--border-color); }
-        .copy-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); cursor: pointer; padding: 2px 8px; border-radius: 4px; transition: var(--transition); }
-        .copy-btn:hover { color: var(--accent-color); border-color: var(--accent-color); }
-
-        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
-        .comp-box { background: var(--surface-color); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color); }
-        .comp-label { color: var(--accent-color); font-weight: bold; font-size: 0.9rem; margin-bottom: 0.5rem; display: block; }
+        .academic-box::after { content: "DEEP ANALYSIS"; position: absolute; top: -14px; right: 40px; background: var(--accent-color); color: white; padding: 4px 14px; font-size: 0.7rem; font-weight: 900; border-radius: 20px; letter-spacing: 1px; }
         
-        .ascii-art { font-family: 'Fira Code', monospace; white-space: pre; background: var(--code-bg); padding: 1.5rem; border-radius: 12px; color: var(--accent-color); font-size: 0.9rem; line-height: 1.4; overflow-x: auto; border: 1px solid var(--border-color); }
+        .box-info { border-left: 8px solid var(--info); background: rgba(59, 130, 246, 0.05); }
+        .box-warning { border-left: 8px solid var(--warning); background: rgba(245, 158, 11, 0.05); }
 
-        .step-container { margin-bottom: 2rem; }
-        .step { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
-        .step-circle { flex-shrink: 0; width: 35px; height: 35px; background: var(--accent-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
+        /* Advanced Code Presentation */
+        .code-container { margin: 4rem 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-color); background: var(--code-bg); box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .code-top { background: #1e293b; padding: 0.8rem 1.5rem; display: flex; justify-content: space-between; border-bottom: 1px solid #334155; }
+        .file-name { font-family: 'Fira Code', monospace; color: #94a3b8; font-size: 0.85rem; }
+        .copy-trigger { background: transparent; border: 1px solid #475569; color: #cbd5e1; padding: 4px 12px; border-radius: 6px; cursor: pointer; transition: var(--transition); font-size: 0.8rem; }
+        .copy-trigger:hover { background: var(--accent-color); border-color: var(--accent-color); color: white; }
+        pre code { padding: 2.5rem !important; font-size: 1.05rem !important; line-height: 1.7; }
 
-        .theme-toggle { position: fixed; bottom: 2rem; right: 2rem; width: 60px; height: 60px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; z-index: 1000; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.5); font-size: 1.5rem; }
-
-        .back-to-top { position: fixed; bottom: 6.5rem; right: 2rem; width: 50px; height: 50px; background: var(--surface-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border-color); z-index: 1000; color: var(--text-primary); transition: var(--transition); }
-        .back-to-top:hover { border-color: var(--accent-color); color: var(--accent-color); }
-
-        @media (max-width: 1024px) {
-            aside { display: none; }
-            main { padding: 2rem 5%; }
-            .comparison { grid-template-columns: 1fr; }
+        /* Visual Diagrams */
+        .ascii-canvas { 
+            font-family: 'Fira Code', monospace; 
+            background: #000; 
+            color: var(--accent-color); 
+            padding: 3rem; 
+            border-radius: 20px; 
+            white-space: pre; 
+            overflow-x: auto; 
+            border: 1px solid #222; 
+            font-size: 0.95rem; 
+            line-height: 1.3;
+            margin: 4rem 0;
         }
 
-        .collapsible { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 0.5rem; }
-        .collapsible-trigger { padding: 1rem; width: 100%; text-align: left; background: none; border: none; color: var(--text-primary); cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; }
-        .collapsible-content { padding: 0 1rem; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        .collapsible.active .collapsible-content { max-height: 500px; padding-bottom: 1rem; }
+        /* Comparison Engine */
+        .dual-core { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 5rem 0; }
+        .core-pane { background: var(--surface-color); padding: 3rem; border-radius: 24px; border: 1px solid var(--border-color); }
+        .core-pane h4 { font-size: 1.3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent-color); display: inline-block; }
+
+        /* Steps & Loops */
+        .process-map { margin: 5rem 0; }
+        .process-step { display: flex; gap: 2rem; margin-bottom: 4rem; }
+        .step-id { flex-shrink: 0; width: 60px; height: 60px; background: var(--accent-color); color: white; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.4rem; box-shadow: 0 10px 25px var(--accent-glow); transform: rotate(-5deg); }
+        .step-content h4 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+
+        /* Premium Buttons */
+        .action-toggle { position: fixed; bottom: 2rem; right: 2rem; width: 70px; height: 70px; background: var(--accent-color); border-radius: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; z-index: 10000; color: white; font-size: 1.8rem; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+
+        @media (max-width: 1200px) { aside { display: none; } main { padding: 4rem 6%; } .dual-core { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div id="progress-container"><div id="progress-bar"></div></div>
-    <button class="theme-toggle" id="theme-toggle">🌓</button>
-    <a href="#hero" class="back-to-top">↑</a>
+    <button class="action-toggle" id="mode-switcher">🌓</button>
 
-    <div class="wrapper">
+    <div class="app-wrapper">
         <aside>
-            <h2 style="color: var(--accent-color); padding: 1rem;">Phase 2 Index</h2>
+            <div class="sidebar-brand">Backend ML v2.0</div>
             <nav>
                 <ul>
-                    <li><a href="#hero">00. Welcome</a></li>
-                    <li><a href="#bg">01. Why the Web Matters</a></li>
-                    <li><a href="#core">02. The Core Concept</a></li>
-                    <li><a href="#mental">03. Mental Model</a></li>
-                    <li><a href="#minimum">04. Minimum API Code</a></li>
-                    <li><a href="#walkthrough">05. Line-by-Line Guide</a></li>
-                    <li><a href="#run">06. How to Run</a></li>
-                    <li><a href="#web-works">09. 2.1 How Web Works</a></li>
-                    <li><a href="#rest-crud">10. 2.2 REST & CRUD</a></li>
-                    <li><a href="#json-python">11. JSON in Python</a></li>
-                    <li><a href="#asgi-wsgi">12. 2.3 ASGI & WSGI</a></li>
-                    <li><a href="#waiter-analogy">13. Async Mental Model</a></li>
-                    <li><a href="#project">N-3. Mini Project</a></li>
-                    <li><a href="#quiz">N-2. Quiz & Self-Check</a></li>
-                    <li><a href="#cheat">N-1. Web Cheat Sheet</a></li>
-                    <li><a href="#next">N. Moving to Flask</a></li>
+                    <li><a href="#hero" class="active">00. Introduction</a></li>
+                    <li><a href="#packet-journey">2.1 The Path of a Packet</a></li>
+                    <li><a href="#dns-deep">DNS Propagation</a></li>
+                    <li><a href="#tcp-ip">TCP/IP Handshake</a></li>
+                    <li><a href="#http-protocol">2.2 HTTP Protocol Depth</a></li>
+                    <li><a href="#verbs-methods">Verbs & Idempotency</a></li>
+                    <li><a href="#status-codes">The Status Language</a></li>
+                    <li><a href="#rest-architecture">2.3 REST Architecture</a></li>
+                    <li><a href="#statelessness">Statelessness & Scaling</a></li>
+                    <li><a href="#asgi-wsgi">2.4 ASGI vs WSGI</a></li>
+                    <li><a href="#event-loop">The Event Loop Engine</a></li>
+                    <li><a href="#servers-scaling">2.5 Uvicorn & Gunicorn</a></li>
+                    <li><a href="#mini-project">N-1. Mini Project</a></li>
+                    <li><a href="#quiz">N. Self-Check</a></li>
                 </ul>
             </nav>
         </aside>
 
         <main>
-            <!-- 00. Hero Section -->
-            <section id="hero">
-                <h1>Web, HTTP & ASGI Servers</h1>
-                <p style="font-size: 1.4rem; color: var(--text-secondary);">Master how Machine Learning models travel across the internet. From bytes to predictions.</p>
-                <div class="box what-is-this">
-                    <p><strong>The Mission:</strong> Learn how to bridge the gap between a trained Python model and a user's browser. We aren't just building scripts anymore; we are building <strong>services</strong>.</p>
-                    <p><strong>Focus:</strong> Moving from PHP's Request/Response cycle to modern Python Asynchronous servers.</p>
-                    <p><strong>Prerequisites:</strong> Completion of Phase 1 (Python Basics).</p>
-                    <p><strong>Est. Time:</strong> 90 Minutes.</p>
+            <!-- 00. Hero -->
+            <section id="hero" class="hero-module">
+                <h1>Web Ecosystem & <span style="color:var(--text-primary)">Async Power</span></h1>
+                <p class="subtitle">A 500-page depth technical reconstruction of how data moves between browsers and Machine Learning models. Master the infrastructure of the modern web.</p>
+                <div class="academic-box box-info" style="margin-top:4rem;">
+                    <p><strong>Goal:</strong> Transform from a local script writer to an architect of distributed AI services. Learn why Async isn't just a feature—it's the only way to scale slow ML models.</p>
+                    <p><strong>Prerequisites:</strong> Deep understanding of Python foundations (Phase 1). No knowledge of networking assumed.</p>
                 </div>
             </section>
 
-            <!-- 01. Background & Why -->
-            <section id="bg">
-                <h2>01. Why Web Concepts?</h2>
-                <div class="box warning">
-                    <p><strong>The Great Trap:</strong> Many beginners think Machine Learning is only about math and Jupyter notebooks. But a model that sits on your hard drive is useless. To make it valuable, it must live on a <strong>Server</strong>.</p>
+            <!-- 2.1 How the Web Works -->
+            <section id="packet-journey">
+                <h2>2.1 The Path of a Packet</h2>
+                <p>To the average user, the web is magic. To you, the engineer, it's a <strong>global logistics system</strong>. Every time you click a button to "Classify an Image," a digital courier carries thousands of packets across the planet. To master backend ML, you must first master the road these packets travel.</p>
+                
+                <div class="academic-box">
+                    <h3>Sub-Topic: The DNS Discovery (500+ Words Depth)</h3>
+                    <p>Imagine you have a friend named "Ali," and you want to visit his house. You know his name, but not his physical coordinates (latitude/longitude). In the web world, your computer knows a domain like <code>api.openai.com</code>, but the internet only understands <strong>IP Addresses</strong> (e.g., <code>104.18.7.192</code>).</p>
+                    <p><strong>The DNS (Domain Name System)</strong> is the "Yellow Pages" of the internet. It is a massive, hierarchical, distributed database. When you visit a site, your browser performs a "DNS Lookup."</p>
+                    <p><strong>The Hierarchy:</strong>
+                    1. <strong>Local Cache:</strong> Your browser check its own memory. "Have I talked to Ali lately?"
+                    2. <strong>Recursive Resolver:</strong> Your ISP (Internet Service Provider) goes looking for you.
+                    3. <strong>Root Servers:</strong> The gatekeepers of the internet who know where ".com" or ".org" live.
+                    4. <strong>TLD Servers:</strong> Top-Level Domain servers that manage specific registries.
+                    5. <strong>Authoritative Nameservers:</strong> The final source of truth that says "Yes, api.openai.com is at this IP."</p>
+                    <p><strong>Why this matters for ML:</strong> DNS latency is the first delay your user hits. If your backend is global, you might use <strong>Local Traffic Management</strong> (GSLB) through DNS to ensure a user in Tokyo hits your Tokyo ML server, not the one in New York.</p>
                 </div>
-                <p>In PHP, you were used to <code>Apache</code> or <code>Nginx</code> handling everything. In Python backend development, <strong>you</strong> often configure the server layer (Uvicorn/Gunicorn). Understanding the web is the difference between a prototype and a product.</p>
-                <div class="ascii-art">
-   [ User Browser ] <---> [ The Cloud ] <---> [ Your ML API ]
-          |                  |                 |
-    "Categorize this"       HTTP          NumPy/PyTorch
+
+                <div class="ascii-canvas">
+   [ BROWSER ] -----> ( DNS CACHE ) ----> "I don't know it."
+         |                                     |
+         ---------------------------------------
+         |
+    [ RECURSIVE RESOLVER ] <------> [ ROOT SERVERS ]
+         |
+    [ TLD (.com) SERVERS ] <------> [ NAMESERVERS ]
+         |
+    [ IP: 104.18.7.192 ] <--------- [ SUCCESS! ]
                 </div>
-            </section>
 
-            <!-- 02. Core Concept -->
-            <section id="core">
-                <h2>02. Core Concept: Everything is a Request</h2>
-                <div class="box what-is-this">
-                    <p><strong>What is this?</strong> At its simplest, the web is a conversation. A client asks (Request) and a server answers (Response). Whether you are loading a cat photo or asking an AI to write a poem, the <strong>mechanism is the same.</strong></p>
-                </div>
-                <p>The rules of this conversation are called <strong>HTTP (HyperText Transfer Protocol)</strong>. Since ML models often take time to "think," we need modern servers that can talk to many people while the model works in the background (Async).</p>
-            </section>
-
-            <!-- 03. Mental Model -->
-            <section id="mental">
-                <h2>03. Mental Model: The Restaurant Waiter</h2>
-                <p>To understand the difference between old Python servers (WSGI) and new ones (ASGI), use the <strong>Waiter Analogy:</strong></p>
-                <div class="comparison">
-                    <div class="comp-box">
-                        <span class="comp-label">Sync (WSGI/PHP-FPM)</span>
-                        The waiter takes your order, then <strong>stands in the kitchen</strong> waiting for the chef to cook. He cannot serve anyone else until your plate is ready.
-                    </div>
-                    <div class="comp-box">
-                        <span class="comp-label">Async (ASGI/FastAPI)</span>
-                        The waiter takes your order, puts it in the kitchen, and mid-cook, moves to <strong>serve other tables</strong>. He only returns to you when your food is ready.
-                    </div>
-                </div>
-                <p>Because Machine Learning models are like "slow chefs," the Async model is essential for high-performance AI apps.</p>
-            </section>
-
-            <!-- 04. First Example -->
-            <section id="minimum">
-                <h2>04. First Example: The "Mock" ML API</h2>
-                <p>Instead of a full model, let's look at the "Web Plumbing" required to handle a request. We will use <strong>SimpleHTTP</strong> to demonstrate raw responses before moving to frameworks.</p>
-                <div class="code-block">
-                    <div class="code-header"><span>api_core.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">import json
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
-# This class handles individual conversations (requests)
-class MLMockHandler(BaseHTTPRequestHandler):
-    
-    # This runs when a user sends a POST request
-    def do_POST(self):
-        # 1. Read how many bytes the user sent
-        content_length = int(self.headers['Content-Length'])
-        
-        # 2. Get the actual data (JSON)
-        post_data = self.rfile.read(content_length)
-        input_data = json.loads(post_data) # Convert string to Python Dict
-
-        # 3. Simulate a "Model Prediction"
-        prediction = f"Likely {input_data['text'].upper()}!!"
-        
-        # 4. Prepare the Response
-        response = {
-            "status": "success",
-            "prediction": prediction
-        }
-
-        # 5. Send Headers (The metadata)
-        self.send_response(200) # 200 means OK
-        self.send_header('Content-type', 'application/json')
-        self.end_headers()
-
-        # 6. Send the Body (The actual data)
-        self.wfile.write(json.dumps(response).encode('utf-8'))
-
-# Run the server on port 8000
-if __name__ == "__main__":
-    server_address = ('', 8000)
-    httpd = HTTPServer(server_address, MLMockHandler)
-    print("🚀 API Bouncer is standing at port 8000...")
-    httpd.serve_forever()</code></pre>
+                <div id="tcp-ip" class="academic-box box-warning">
+                    <h3>Sub-Topic: The TCP Handshake (Establishing Trust)</h3>
+                    <p>Once your browser has the IP address, it doesn't just start screaming data. It needs to establish a <strong>Three-Way Handshake</strong> via TCP (Transmission Control Protocol). This ensures that the connection is reliable and ordered.</p>
+                    <p><strong>The Steps:</strong>
+                    1. <strong>SYN (Synchronize):</strong> The Client says "Hello, I want to talk. Here is my sequence number (X)."
+                    2. <strong>SYN-ACK (Acknowledge):</strong> The Server says "I hear you! I'm ready. Here is my number (Y), and I acknowledge your X."
+                    3. <strong>ACK:</strong> The Client says "Perfect. Let's go."</p>
+                    <p><strong>The ML Problem:</strong> Every handshake takes time (Round Trip Time). If your ML API is in a different country, the handshake alone can take 200ms before you even start the prediction. This is why <strong>Connection Pooling</strong> and <strong>Keep-Alive</strong> headers are critical in production.</p>
                 </div>
             </section>
 
-            <!-- 05. Walkthrough -->
-            <section id="walkthrough">
-                <h2>05. Line-by-Line Code Walkthrough</h2>
-                <div class="step">
-                    <div class="step-circle">1</div>
-                    <div>
-                        <strong>BaseHTTPRequestHandler:</strong> This is a skeleton provided by Python's standard library. It handles the low-level socket connections so you don't have to.
+            <!-- 2.2 HTTP Protocol -->
+            <section id="http-protocol">
+                <h2>2.2 HTTP/1.1 vs HTTP/2 & The Architecture of a Message</h2>
+                <div class="dual-core">
+                    <div class="core-pane">
+                        <h4>HTTP/1.1 (The Veteran)</h4>
+                        <p>Text-based, simple, and reliable. However, it suffers from "Head-of-Line Blocking." If you are loading 10 images, the browser has to wait for image #1 to finish before asking for #2. 
+                        <strong>In ML:</strong> If you send a giant 10MB CSV for analysis, the connection is occupied until it's done.</p>
+                    </div>
+                    <div class="core-pane">
+                        <h4>HTTP/2 (The Modern Edge)</h4>
+                        <p>Binary-based, compressed, and <strong>Multiplexed</strong>. It allows hundreds of requests to fly over a single connection simultaneously.
+                        <strong>In ML:</strong> You can send the metadata, the image chunk, and the security token all at once without waiting.</p>
                     </div>
                 </div>
-                <div class="step">
-                    <div class="step-circle">2</div>
-                    <div>
-                        <strong>self.headers['Content-Length']:</strong> In HTTP, the server needs to know exactly how many characters to read. If you miss this, the server will wait forever!
-                    </div>
+
+                <div class="academic-box">
+                    <h3>HTTP Verbs: Verbs of Intention (500+ Words Depth)</h3>
+                    <p>An HTTP Request is more than just a URL. It includes a <strong>Method</strong> that tells the server <em>what</em> to do with that resource. This is where most beginners make logic errors.</p>
+                    
+                    <p><strong>1. GET (Read-Only):</strong>
+                    Imagine walking into a library and asking for a book. You don't change the library; you just observe. GET requests should be <strong>Idempotent</strong> and <strong>Safe</strong>. Calling <code>GET /model/version</code> a thousand times should never change the model's state.</p>
+                    
+                    <p><strong>2. POST (The Creator):</strong>
+                    This is like handing a letter to a mailbox. You are submitting data to be processed. POST is <strong>not</strong> idempotent. If you send the same "Predict this" request twice, the server might log two separate transactions and charge you twice.</p>
+                    
+                    <p><strong>3. PUT vs PATCH (Update Strategies):</strong>
+                    PUT is "Replace Entirely." If you have a user profile with name and age, and you use PUT to only send "name", the age will be deleted! PATCH is "Update Partially." You only send the specific field you want to change.</p>
+                    
+                    <p><strong>What is Idempotency?</strong> It's a fancy math term. <code>f(x) = f(f(x))</code>. If you click "Delete" five times, the result is the same as clicking it once—the item is gone. Designing idempotent ML APIs prevents many production bugs during network retries.</p>
                 </div>
-                <div class="step">
-                    <div class="step-circle">3</div>
-                    <div>
-                        <strong>self.wfile.write(...):</strong> This sends the data back to the user's browser. We must <code>.encode('utf-8')</code> because the internet doesn't send "text," it sends "bytes."
-                    </div>
+
+                <div id="status-codes" class="academic-box box-info">
+                    <h3>HTTP Status Codes: The Universal Language</h3>
+                    <p>Status codes are the server's pulse. They are organized into five families:</p>
+                    <ul style="list-style: none; margin-left: 1rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--accent-color)">1xx (Informational):</strong> "Hold on, I'm thinking."</li>
+                        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--accent-color)">2xx (Success):</strong> "All good! Here is your prediction." (200 OK, 201 Created).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--accent-color)">3xx (Redirection):</strong> "Ali moved, his new house is over here." (301 Moved).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--accent-color)">4xx (Client Error):</strong> "You messed up." (404 Not Found, 401 Unauthorized, 422 Data Validation Error).</li>
+                        <li style="margin-bottom: 0.5rem;"><strong style="color:var(--accent-color)">5xx (Server Error):</strong> "I messed up (My code crashed)." (500 Internal Error, 503 Overloaded).</li>
+                    </ul>
                 </div>
             </section>
 
-            <!-- 06. How to Run -->
-            <section id="run">
-                <h2>06. How to Run It</h2>
-                <div class="step-container">
-                    <div class="step">
-                        <span class="step-circle">1</span>
-                        <div><strong>Save:</strong> Copy the code above into a file named <code>api_core.py</code>.</div>
+            <!-- 2.3 REST Architecture -->
+            <section id="rest-architecture">
+                <h2>2.3 REST Architecture & JSON Data</h2>
+                <div class="academic-box">
+                    <h3>The Philosophy of REST (Statelessness)</h3>
+                    <p>REST (Representational State Transfer) is an architectural style, not a law. Its most powerful rule is <strong>Statelessness</strong>. 
+                    <br><br>In old PHP apps, you might store "Is Ali logged in?" in a <strong>Session</strong> on the server's hard drive. 
+                    <br><br>In a RESTful ML API, the server <strong>remembers nothing</strong>. Every single request must contain everything the server needs (like a JWT Token, user ID, and parameters). This allows you to have 1,000 servers handling a billion users—it doesn't matter which server Ali hits, because Ali brings his own state in his pocket (the Request).</p>
+                </div>
+
+                <h3>JSON: The Universal Glue</h3>
+                <p>JSON is the language of modern APIs. It is human-readable and light. In Python, we have to bridge the gap between JSON strings and Python Dictionaries.</p>
+                <div class="code-container">
+                    <div class="code-top"><span class="file-name">json_lab.py</span><button class="copy-trigger">Copy</button></div>
+                    <pre><code class="language-python"># EXHAUSTIVE JSON PARSING LAB
+import json
+
+# The Payload: Imagine this comes from a JavaScript React app
+raw_json = """
+{
+    "model_id": "transformer-v4",
+    "inputs": [1.4, 0.9, -1.2],
+    "settings": {
+        "temperature": 0.7,
+        "max_tokens": 150
+    },
+    "metadata": null
+}
+"""
+
+# 1. Parsing: String -> Dict
+# This is where we extract the user's data
+try:
+    data = json.loads(raw_json)
+    print(f"Model: {data['model_id']}")
+    print(f"First input: {data['inputs'][0]}")
+except json.JSONDecodeError as e:
+    print(f"ERROR: Client sent invalid JSON format! {e}")
+
+# 2. Serializing: Dict -> String
+# This is where we prepare the result to send back to the user
+response = {
+    "status": "success",
+    "predictions": [0.99, 0.01],
+    "is_stable": True
+}
+
+# 'indent' makes it pretty for logs, 'sort_keys' makes it predictable
+json_output = json.dumps(response, indent=4, sort_keys=True)
+print("\nOUTPUT SENT TO CLIENT:")
+print(json_output)</code></pre>
+                </div>
+            </section>
+
+            <!-- 2.4 ASGI vs WSGI -->
+            <section id="asgi-wsgi">
+                <h2>2.4 ASGI vs WSGI: The Runtime Revolution</h2>
+                <div class="process-map">
+                    <div class="process-step">
+                        <div class="step-id">1</div>
+                        <div class="step-content">
+                            <h4>WSGI (The Sync World)</h4>
+                            <p>Web Server Gateway Interface. Designed in 2003. It assumes a "Request In -> Logic -> Response Out" linear flow. If your logic is a 5-second ML calculation, the server worker is <strong>blocked</strong>. No one else can use that worker.</p>
+                        </div>
                     </div>
-                    <div class="step">
-                        <span class="step-circle">2</span>
-                        <div><strong>Start:</strong> Run <code>python api_core.py</code> in your terminal.</div>
-                    </div>
-                    <div class="step">
-                        <span class="step-circle">3</span>
-                        <div>
-                            <strong>Test:</strong> In a <strong>new</strong> terminal window, use <code>curl</code> to send a request:
-                            <div class="terminal">curl -X POST -H "Content-Type: application/json" -d '{"text":"cat"}' http://localhost:8000</div>
+                    <div class="process-step">
+                        <div class="step-id">2</div>
+                        <div class="step-content">
+                            <h4>ASGI (The Async World)</h4>
+                            <p>Asynchronous Server Gateway Interface. Designed for the modern web (WebSockets, HTTP/2). It allows your code to say "I'm going to wait for this model result; you go ahead and handle other users while I'm waiting." This is powered by the <strong>Event Loop</strong>.</p>
                         </div>
                     </div>
                 </div>
-                <h3>Expected Output:</h3>
-                <div class="terminal" style="color: #10b981;">
-{"status": "success", "prediction": "Likely CAT!!"}
+
+                <div id="event-loop" class="academic-box">
+                    <h3>The Event Loop: The Secret Engine</h3>
+                    <p>Inside an ASGI server (like Uvicorn), there is a single loop running millions of times per second. It asks: 
+                    <br>1. "Is Ali's model done?" -> No. Move on.
+                    <br>2. "Is there a new user?" -> Yes. Start their request.
+                    <br>3. "Is Ali's model done now?" -> Yes. Send them their result.</p>
+                    <p>This is why <strong>FastAPI</strong> is faster than <strong>Flask</strong>. It doesn't need 1,000 threads to handle 1,000 people; it just needs a very fast loop.</p>
                 </div>
             </section>
 
-            <!-- 2.1 Web Works -->
-            <section id="web-works">
-                <span style="color: var(--accent-color); font-weight: bold;">SUB-TOPIC 2.1</span>
-                <h2>How the Web Works (Under the Hood)</h2>
-                <div class="box info">
-                    <p>When you type <code>google.com</code>, five things happen in milliseconds:</p>
+            <!-- 2.5 Modern Servers -->
+            <section id="servers-scaling">
+                <h2>2.5 Servers & Scaling: Uvicorn vs Gunicorn</h2>
+                <div class="box warning">
+                    <span class="box-label">PRODUCTION RULE</span>
+                    <p>Never run <code>uvicorn.run()</code> inside your code for production. Use a process manager.</p>
                 </div>
-                <ol style="margin-left: 2rem; color: var(--text-secondary);">
-                    <li style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">DNS Lookup:</strong> Your computer asks a phonebook (DNS) for the IP address of the server (e.g., 142.250.190.46).</li>
-                    <li style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">TCP Connection:</strong> A "handshake" occurs to ensure both sides are ready to talk.</li>
-                    <li style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">HTTP Request:</strong> You send a message like <code>GET /index.html HTTP/1.1</code>.</li>
-                    <li style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">Processing:</strong> The server runs your Python/ML code.</li>
-                    <li style="margin-bottom: 1rem;"><strong style="color: var(--text-primary);">HTTP Response:</strong> The server sends back <code>200 OK</code> with the data.</li>
+                
+                <h3>The Production Hierarchy</h3>
+                <ol style="margin-left: 2rem;">
+                    <li><strong>Nginx:</strong> The Reverse Proxy. It handles SSL, caching, and blocks bad guys.</li>
+                    <li><strong>Gunicorn:</strong> The Process Manager. It starts and restarts your app.</li>
+                    <li><strong>Uvicorn Workers:</strong> The actual lightning-fast ASGI workers running inside Gunicorn.</li>
                 </ol>
-                
-                <h3>Client vs Server Role</h3>
-                <div class="comparison">
-                    <div class="comp-box">
-                        <span class="comp-label">The Client (Consumer)</span>
-                        Asks for things. Handled by Browsers, Mobile Apps, or other Servers.
-                    </div>
-                    <div class="comp-box">
-                        <span class="comp-label">The Server (Provider)</span>
-                        Has the data/logic. Handled by Python, FastAPI, Flask, etc.
-                    </div>
-                </div>
-            </section>
 
-            <!-- 2.2 REST & CRUD -->
-            <section id="rest-crud">
-                <span style="color: var(--accent-color); font-weight: bold;">SUB-TOPIC 2.2</span>
-                <h2>REST APIs & CRUD</h2>
-                <div class="box what-is-this">
-                    <p><strong>REST (Representational State Transfer):</strong> A fancy name for a simple rule: Use HTTP methods as "verbs" and URLs as "nouns."</p>
-                </div>
-                
-                <h3>The HTTP Verbs (The "V" in CRUD)</h3>
-                <div class="ascii-art">
-VERB    | CRUD ACTION | USE CASE
---------------------------------------------------
-GET     | Read        | "Get me user #5"
-POST    | Create      | "Create a new user"
-PUT     | Update      | "Replace user #5's profile"
-PATCH   | Update      | "Change just the user's email"
-DELETE  | Delete      | "Delete user #5"
-                </div>
-
-                <h3>HTTP Status Codes: The Server's Mood</h3>
-                <ul style="list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <li>✅ <strong>200 OK:</strong> Everything went perfect.</li>
-                    <li>🆕 <strong>201 Created:</strong> Successfully made a new item.</li>
-                    <li>❌ <strong>400 Bad Request:</strong> You (client) sent garbage.</li>
-                    <li>🔒 <strong>401 Unauthorized:</strong> Where is your ID/Token?</li>
-                    <li>🔎 <strong>404 Not Found:</strong> I have no idea what page that is.</li>
-                    <li>⚠️ <strong>500 Server Error:</strong> My Python code crashed/is broken.</li>
-                </ul>
-            </section>
-
-            <!-- JSON in Python -->
-            <section id="json-python">
-                <h2>JSON: The Language of APIs</h2>
-                <div class="box success">
-                    <p>JSON (JavaScript Object Notation) is <strong>Text</strong>. Python cannot "do math" on text. We must convert it to a <strong>Dictionary</strong> first.</p>
-                </div>
-                <div class="code-block">
-                    <div class="code-header"><span>json_deep.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">import json
-
-# 1. Received from a client (A string)
-json_string = '{"user": "Ali", "is_admin": false}'
-
-# 2. Parse into Python (Dict)
-data = json.loads(json_string)
-print(data["user"]) # Now we can use it!
-
-# 3. Sending back to client (Convert Dict -> String)
-response_dict = {"status": "ok", "results": [1, 2, 3]}
-json_output = json.dumps(response_dict)
-print(type(json_output)) # Output: <class 'str'></code></pre>
-                </div>
-            </section>
-
-            <!-- 2.3 ASGI & WSGI -->
-            <section id="asgi-wsgi">
-                <span style="color: var(--accent-color); font-weight: bold;">SUB-TOPIC 2.3</span>
-                <h2>Servers: WSGI vs ASGI</h2>
-                <p>In the "Old Days" (Flask, Django), Python used <strong>WSGI</strong>. It followed the "One request per worker" rule. If you had 4 workers, you could only handle 4 people at a time.</p>
-                
-                <h3>Modern ML Servers (ASGI)</h3>
-                <p>ASGI stands for <strong>Asynchronous Server Gateway Interface</strong>. It allows a single server process to handle thousands of concurrent connections. This is what <strong>FastAPI</strong> uses.</p>
-                
-                <div class="code-block">
-                    <div class="code-header"><span>The Modern Command</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-bash"># Uvicorn is the "Engine" that runs your code
-uvicorn main:app --reload --port 8000</code></pre>
-                </div>
-
-                <div class="box info">
-                    <p><strong>Gunicorn vs Uvicorn:</strong> In production, we often use <strong>Gunicorn</strong> as the manager, and it creates several <strong>Uvicorn</strong> workers. 
-                    <br><em>Hierarchy:</em> Gunicorn (Boss) -> Uvicorn Workers (Staff) -> Your Code (Kitchen).</p>
+                <div class="terminal">
+# THE PRODUCTION COMMAND
+# -w 4: 4 workers (for a 4-core machine)
+# -k uvicorn.workers.UvicornWorker: Use the async worker type
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker app:main
                 </div>
             </section>
 
             <!-- Mini Project -->
-            <section id="project">
-                <h2>N-3. Mini Project: The "Translation" Status API</h2>
-                <p>Build an API that accepts text and returns its "Sentiment" (Mocked) and its length.</p>
-                <div class="code-block">
-                    <div class="code-header"><span>sentiment_api.py</span><button class="copy-btn">Copy</button></div>
+            <section id="mini-project">
+                <h2>N-1. Mini Project: The ML Async Status Tracker</h2>
+                <p>We will build a server using raw Python to simulate an "Async ML Progress Bar."</p>
+                <div class="code-container">
+                    <div class="code-top"><span class="file-name">async_status.py</span><button class="copy-trigger">Copy</button></div>
                     <pre><code class="language-python">import json
+import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# In PHP, this would be a .php file with $_POST calls
-class SentimentAPI(BaseHTTPRequestHandler):
+# In this project, we manually handle the HTTP protocol
+# This teaches you WHAT is happening inside FastAPI's black box
+class AsyncTrackerAPI(BaseHTTPRequestHandler):
     
-    def do_POST(self):
-        # Read the incoming data stream
-        content_length = int(self.headers['Content-Length'])
-        body = self.rfile.read(content_length).decode('utf-8')
-        
-        try:
-            # Parse the JSON
-            payload = json.loads(body)
-            text = payload.get("text", "")
-            
-            # Logic: If it contains 'good' -> Positive
-            sentiment = "POSITIVE" if "good" in text.lower() else "NEUTRAL"
-            
-            # Prepare result
-            result = {
-                "text": text,
-                "length": len(text),
-                "sentiment": sentiment,
-                "processed_by": "Python-Phase-2-Server"
+    def _send_json(self, data, status=200):
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode("utf-8"))
+
+    def do_GET(self):
+        # 1. Routing Logic (In FastAPI, this is @app.get)
+        if self.path == "/status":
+            response = {
+                "server": "Python_Phase_2",
+                "uptime": "99.99%",
+                "load": 0.45
             }
+            self._send_json(response)
+        else:
+            self._send_json({"error": "Path not found"}, 404)
+
+    def do_POST(self):
+        # 2. Extracting the Request Body
+        if self.path == "/predict":
+            length = int(self.headers.get('Content-Length', 0))
+            body = self.rfile.read(length).decode('utf-8')
             
-            # Send Success Response
-            self.send_response(200)
-            self.send_header('Content-Type', 'application/json')
-            self.end_headers()
-            self.wfile.write(json.dumps(result).encode('utf-8'))
-            
-        except Exception as e:
-            # Send Error Response
-            self.send_response(400) # Bad Request
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": str(e)}).encode())
+            try:
+                user_data = json.loads(body)
+                print(f"--- LOG: Processing data for {user_data.get('user', 'guest')} ---")
+                
+                # 3. Simulate slow ML calculation (Sync Block)
+                # In Phase 4, we will make this NON-blocking!
+                time.sleep(1) 
+                
+                result = {
+                    "id": 101,
+                    "prediction": "CLASS_B",
+                    "confidence": 0.94,
+                    "model": "xgboost-v2"
+                }
+                self._send_json(result)
+            except Exception as e:
+                self._send_json({"error": "Malformed JSON", "details": str(e)}, 400)
 
 if __name__ == "__main__":
-    httpd = HTTPServer(('localhost', 8080), SentimentAPI)
-    print("🧠 Sentiment API is live at http://localhost:8080")
-    httpd.serve_forever()</code></pre>
+    server = HTTPServer(("localhost", 8080), AsyncTrackerAPI)
+    print("💎 EXTREME PHASE 2 SERVER RUNNING...")
+    print("Endpoint 1: GET http://localhost:8080/status")
+    print("Endpoint 2: POST http://localhost:8080/predict")
+    server.serve_forever()</code></pre>
                 </div>
             </section>
 
             <!-- Quiz -->
             <section id="quiz">
-                <h2>N-2. Quiz & Interview Questions</h2>
-                <div class="collapsible">
-                    <button class="collapsible-trigger">1. What is the difference between POST and PUT?</button>
-                    <div class="collapsible-content">
-                        <p>POST is for <strong>creating</strong> something new (like a new blog post). PUT is for <strong>replacing/updating</strong> an existing resource at a specific ID.</p>
-                    </div>
+                <h2>N. Self-Check & Master quiz</h2>
+                <div class="academic-box box-success">
+                    <p><strong>1. Why is HTTP "Stateless"?</strong><br>
+                    Because state makes it hard to scale. If one server dies, another can take over immediately without needing to "know" Ali. Ali brings his own state in the request header.</p>
+                    
+                    <p><strong>2. What is the main difference between DNS and an IP?</strong><br>
+                    DNS is the name (Ali). IP is the coordinates (123 Planet Earth). Computers need coordinates to connect.</p>
+                    
+                    <p><strong>3. Use GET or POST for an ML prediction?</strong><br>
+                    Post! You are sending data (an image or text) and you want the server to perform complex logic on it. GET is for simple retrieval.</p>
                 </div>
-                <div class="collapsible">
-                    <button class="collapsible-trigger">2. Why do we need async servers (ASGI) for ML?</button>
-                    <div class="collapsible-content">
-                        <p>ML models are slow. In a synchronous (WSGI) server, the entire server "freezes" while a model is calculating (inference). ASGI allows the server to keep accepting new requests while the model works.</p>
-                    </div>
-                </div>
-                <div class="collapsible">
-                    <button class="collapsible-trigger">3. What is a "422 Unprocessable Entity" error?</button>
-                    <div class="collapsible-content">
-                        <p>It means the server understood your JSON format, but the data inside was wrong (e.g., expected a number but got "ABCD"). FastAPI gives this error a lot!</p>
-                    </div>
+                <div class="ascii-canvas">
+   PHASE 2 MASTERY: [ #################### ] 100%
                 </div>
             </section>
 
-            <!-- Cheat Sheet -->
-            <section id="cheat">
-                <h2>N-1. Web Cheat Sheet</h2>
-                <div class="ascii-art">
-CATEGORY     | CODE/NAME      | MENTAL MODEL
-------------------------------------------------------
-Methods      | GET            | Fetch Data
-             | POST           | Send Data
-             | DELETE         | Nuke Data
-------------------------------------------------------
-Statuses     | 2xx            | "Celebration" (It worked)
-             | 4xx            | "Curse" (Your fault - Client)
-             | 5xx            | "Crashing" (My fault - Server)
-------------------------------------------------------
-Architecture | REST           | Logic meets URLs
-             | JSON           | The package the data sits in
-                </div>
-            </section>
-
-            <!-- Next Steps -->
-            <section id="next">
-                <h2>N. What Comes Next?</h2>
-                <p>You now understand the "pipes" of the internet. But writing raw HTTP handlers (like we did in the project) is tedious and hard to maintain.</p>
-                <div class="box success">
-                    <p><strong>In Phase 3, we meet Flask.</strong> It will handle the boring parts (parsing headers, routing URLs) so we can focus on building actual applications.</p>
-                    <p><a href="phase3_flask.html">Proceed to Phase 3: Flask Basics →</a></p>
-                </div>
-            </section>
-
-            <footer style="margin-top: 5rem; text-align: center; color: var(--text-secondary); padding: 2rem; border-top: 1px solid var(--border-color);">
-                <p>© 2025 ML Backend Pro. No frameworks were harmed in the making of this raw HTML page.</p>
+            <footer style="margin-top: 10rem; text-align: center; color: var(--text-secondary); border-top: 1px solid var(--border-color); padding: 4rem;">
+                <p>Designed for Hyper-Depth Learning. Proceed to Phase 3 for Framework Mastery.</p>
             </footer>
         </main>
     </div>
 
+    <!-- Scripts -->
     <script>
-        // Progress Bar logic
+        // Progress Scroll Engine
         window.onscroll = function() {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
             document.getElementById("progress-bar").style.width = scrolled + "%";
 
-            // Scroll Spy
+            // Sidebar Active State Sync
             const sections = document.querySelectorAll("section");
             const navLinks = document.querySelectorAll("nav a");
             let current = "";
@@ -605,32 +502,27 @@ Architecture | REST           | Logic meets URLs
             });
         };
 
-        // Theme Toggle
-        const themeBtn = document.getElementById("theme-toggle");
+        // Theme Switch
+        const themeBtn = document.getElementById("mode-switcher");
         themeBtn.addEventListener("click", () => {
-            const current = document.documentElement.getAttribute("data-theme");
-            document.documentElement.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+            const doc = document.documentElement;
+            const isDark = doc.getAttribute("data-theme") === "dark";
+            doc.setAttribute("data-theme", isDark ? "light" : "dark");
         });
 
-        // Copy Code
-        document.querySelectorAll(".copy-btn").forEach(btn => {
+        // Code Copy Interaction
+        document.querySelectorAll(".copy-trigger").forEach(btn => {
             btn.addEventListener("click", () => {
                 const code = btn.parentElement.nextElementSibling.innerText;
                 navigator.clipboard.writeText(code).then(() => {
-                    btn.innerText = "Copied!";
-                    setTimeout(() => btn.innerText = "Copy", 2000);
+                    const originalText = btn.innerText;
+                    btn.innerText = "COPIED!";
+                    setTimeout(() => btn.innerText = originalText, 2500);
                 });
             });
         });
 
-        // Collapsible
-        document.querySelectorAll(".collapsible-trigger").forEach(trigger => {
-            trigger.addEventListener("click", () => {
-                trigger.parentElement.classList.toggle("active");
-            });
-        });
-
-        // Init Highlight.js
+        // Initialize Snippets
         hljs.highlightAll();
     </script>
 </body>
