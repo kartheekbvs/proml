@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 1: Python Foundations - ML Backend Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div class="wrapper">
+        <aside>
+            <h2>Foundations</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 Dashboard</a></li>
+                    <li><a href="#setup" class="active">1.1 Setup & Env</a></li>
+                    <li><a href="#syntax">1.2 Core Syntax</a></li>
+                    <li><a href="#data-structures">1.3 Data Structures</a></li>
+                    <li><a href="#functions">1.4 Functions</a></li>
+                    <li><a href="#oop">1.5 OOP in Python</a></li>
+                    <li><a href="#modules">1.6 Modules & Files</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <section id="setup">
+                <span class="section-number">MODULE 1.1</span>
+                <h1>Setup & Environment</h1>
+                <div class="box what-is-this">
+                    <p><strong>What is this?</strong> Python setup is about creating a clean, isolated workspace for your project. Think of it like a chef having a dedicated cutting board for raw meat and another for vegetables. We don't want library versions from one project messing up another.</p>
+                </div>
+                
+                <h3>Virtual Environments (The Secret Sauce)</h3>
+                <p>In PHP, you might have global extensions. In Python, we use <strong>venv</strong>.</p>
+                <div class="code-block">
+                    <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-bash"># Create the environment
+python -m venv venv
+
+# Activate it
+source venv/bin/activate  # Mac/Linux
+.\venv\Scripts\activate   # Windows</code></pre>
+                </div>
+
+                <h3>Environment Variables (.env)</h3>
+                <p>Never hardcode API keys. Use <code>python-dotenv</code>.</p>
+                <div class="code-block">
+                    <div class="code-header"><span>.env</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-text">API_KEY=your_secret_key_here
+DEBUG=True</code></pre>
+                </div>
+            </section>
+
+            <section id="syntax">
+                <span class="section-number">MODULE 1.2</span>
+                <h2>Core Syntax (vs PHP)</h2>
+                <div class="box what-is-this">
+                    <p><strong>Python indentation:</strong> Unlike PHP which uses <code>{}</code>, Python uses 4 spaces. It's not just for style; the code won't run if it's wrong!</p>
+                </div>
+                
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python"># Variable declaration (no $)
+name = "Ali"
+age = 25
+
+# F-Strings (Modern String Formatting)
+print(f"Hello {name}, you are {age} years old.")
+
+# Type Hints (Crucial for FastAPI)
+def greet(name: str) -> str:
+    return f"Hello {name}"</code></pre>
+                </div>
+            </section>
+
+            <section id="data-structures">
+                <span class="section-number">MODULE 1.3</span>
+                <h2>Data Structures</h2>
+                <p>Lists and Dictionaries are your bread and butter.</p>
+                <ul>
+                    <li><strong>Lists:</strong> Ordered sequences (PHP Indexed Arrays).</li>
+                    <li><strong>Dictionaries:</strong> Key-Value pairs (PHP Associative Arrays).</li>
+                </ul>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python"># List Comprehension (Python's superpower)
+nums = [1, 2, 3, 4]
+squares = [n*n for n in nums if n > 2] # [9, 16]
+
+# Dictionary
+user = {"id": 1, "name": "Ali"}
+print(user.get("age", 0)) # Safer than user["age"]</code></pre>
+                </div>
+            </section>
+
+            <section id="functions">
+                <span class="section-number">MODULE 1.4</span>
+                <h2>Functions & Decorators</h2>
+                <div class="box what-is-this">
+                    <p><strong>Decorators:</strong> These are functions that "wrap" other functions to change their behavior. FastAPI uses these for routes (e.g., <code>@app.get("/")</code>).</p>
+                </div>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">def logger(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@logger
+def add(a, b):
+    return a + b</code></pre>
+                </div>
+            </section>
+
+            <section id="oop">
+                <span class="section-number">MODULE 1.5</span>
+                <h2>OOP: Classes and Data</h2>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">from dataclasses import dataclass
+
+@dataclass
+class User:
+    id: int
+    name: str
+
+# No need for manual __init__!
+new_user = User(id=1, name="Ali")</code></pre>
+                </div>
+            </section>
+
+            <section id="modules">
+                <span class="section-number">MODULE 1.6</span>
+                <h2>Modules & File I/O</h2>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">import json
+
+# Context Managers (Auto-closes file)
+with open("data.json", "r") as f:
+    data = json.load(f)</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

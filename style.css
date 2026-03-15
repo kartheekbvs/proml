@@ -1,0 +1,215 @@
+:root {
+    --bg-color: #0f1117;
+    --surface-color: #1a1d27;
+    --border-color: #2a2d3e;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --accent-color: #10b981;
+    --accent-hover: #059669;
+    --code-bg: #161b22;
+    --sidebar-width: 300px;
+    --header-height: 5px;
+    --warning-border: #f59e0b;
+    --warning-bg: rgba(245, 158, 11, 0.1);
+    --success-border: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.1);
+    --info-border: #3b82f6;
+    --info-bg: rgba(59, 130, 246, 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --surface-color: #f8fafc;
+    --border-color: #e2e8f0;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent-color: #10b981;
+    --code-bg: #f1f5f9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.8;
+    font-size: 18px;
+    transition: var(--transition);
+}
+
+/* Layout */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Navigation Sidebar */
+aside {
+    width: var(--sidebar-width);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--border-color);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+aside h2 {
+    font-size: 1.25rem;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    display: block;
+    transition: var(--transition);
+}
+
+nav a:hover, nav a.active {
+    background-color: var(--bg-color);
+    color: var(--accent-color);
+}
+
+nav a.active {
+    font-weight: 600;
+    border-left: 3px solid var(--accent-color);
+    padding-left: calc(0.8rem - 3px);
+}
+
+/* Main Content */
+main {
+    flex: 1;
+    padding: 4rem 10%;
+    max-width: 1200px;
+}
+
+/* Common Components */
+.box {
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border-left: 4px solid transparent;
+}
+
+.what-is-this {
+    background-color: var(--info-bg);
+    border-left-color: var(--info-border);
+}
+
+.warning {
+    background-color: var(--warning-bg);
+    border-left-color: var(--warning-border);
+}
+
+.success {
+    background-color: var(--success-bg);
+    border-left-color: var(--success-border);
+}
+
+.code-block {
+    position: relative;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+}
+
+.code-header {
+    padding: 0.5rem 1rem;
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+/* Progress Bar */
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 5px;
+    background: var(--accent-color);
+    width: 0%;
+    z-index: 1000;
+}
+
+/* Dashboards Card Style */
+.phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.phase-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    padding: 2rem;
+    border-radius: 16px;
+    transition: var(--transition);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.phase-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+}
+
+.phase-card h3 {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+}
+
+.phase-card .meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}

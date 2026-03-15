@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 4: FastAPI & Pydantic - ML Backend Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div class="wrapper">
+        <aside>
+            <h2>FastAPI</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 Dashboard</a></li>
+                    <li><a href="#fastapi-intro">4.1 Fundamentals</a></li>
+                    <li><a href="#pydantic">4.2 Pydantic</a></li>
+                    <li><a href="#async">4.3 Async Python</a></li>
+                    <li><a href="#di">4.4 Dependencies</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <section id="fastapi-intro">
+                <span class="section-number">MODULE 4.1</span>
+                <h1>FastAPI Fundamentals</h1>
+                <div class="box what-is-this">
+                    <p><strong>FastAPI:</strong> The industry standard for ML backends. It's built on modern Python and is incredibly fast. Plus, it auto-generates your API documentation!</p>
+                </div>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+async def read_root():
+    return {"Hello": "World"}</code></pre>
+                </div>
+            </section>
+
+            <section id="pydantic">
+                <span class="section-number">MODULE 4.2</span>
+                <h2>Pydantic Validation</h2>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">from pydantic import BaseModel
+
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: bool = None
+
+@app.post("/items/")
+def create_item(item: Item):
+    return item</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

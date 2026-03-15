@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 5: Databases - ML Backend Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div class="wrapper">
+        <aside>
+            <h2>Databases</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 Dashboard</a></li>
+                    <li><a href="#postgres">5.1 PostgreSQL</a></li>
+                    <li><a href="#sqlalchemy">5.2 SQLAlchemy</a></li>
+                    <li><a href="#alembic">5.3 Alembic</a></li>
+                    <li><a href="#redis">5.4 Redis</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <section id="postgres">
+                <span class="section-number">MODULE 5.1</span>
+                <h1>PostgreSQL & SQL</h1>
+                <div class="box what-is-this">
+                    <p><strong>PostgreSQL:</strong> The "Gold Standard" database for Python. It's powerful, open-source, and has great support for JSON data—perfect for storing ML model outputs.</p>
+                </div>
+            </section>
+
+            <section id="sqlalchemy">
+                <span class="section-number">MODULE 5.2</span>
+                <h2>SQLAlchemy ORM</h2>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+
+class Base(DeclarativeBase):
+    pass
+
+class User(Base):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str]</code></pre>
+                </div>
+            </section>
+
+            <section id="redis">
+                <span class="section-number">MODULE 5.4</span>
+                <h2>Redis Caching</h2>
+                <div class="box success">
+                    <p><strong>Why Redis?</strong> If an ML prediction takes 2 seconds, we don't want to run it twice for the same input. We save the result in Redis (RAM) for instant retrieval.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

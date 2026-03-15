@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 2: Web & HTTP - ML Backend Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div class="wrapper">
+        <aside>
+            <h2>Web Concepts</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 Dashboard</a></li>
+                    <li><a href="#how-web-works">2.1 How Web Works</a></li>
+                    <li><a href="#rest-crud">2.2 REST & CRUD</a></li>
+                    <li><a href="#wsgi-asgi">2.3 WSGI vs ASGI</a></li>
+                    <li><a href="#http-tools">2.4 Python Tools</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <section id="how-web-works">
+                <span class="section-number">MODULE 2.1</span>
+                <h1>How the Web Works</h1>
+                <div class="box what-is-this">
+                    <p><strong>HTTP Protocol:</strong> Think of it as a set of rules for ordering pizza. You (the browser) call and say "Give me a Margherita" (GET request). The server checks if it has one and gives it to you (200 OK) or says it's out (404 Not Found).</p>
+                </div>
+            </section>
+
+            <section id="rest-crud">
+                <span class="section-number">MODULE 2.2</span>
+                <h2>REST APIs & CRUD</h2>
+                <p>Nouns for resources, Verbs for actions.</p>
+                <ul>
+                    <li><strong>POST /users</strong>: Create</li>
+                    <li><strong>GET /users/1</strong>: Read</li>
+                    <li><strong>PUT /users/1</strong>: Update</li>
+                    <li><strong>DELETE /users/1</strong>: Delete</li>
+                </ul>
+            </section>
+
+            <section id="wsgi-asgi">
+                <span class="section-number">MODULE 2.3</span>
+                <h2>WSGI vs ASGI</h2>
+                <div class="box info" style="background: var(--info-bg); border-left: 4px solid var(--info-border); padding: 1.5rem; border-radius: 8px;">
+                    <p><strong>WSGI:</strong> Synchronous (One at a time). Like a shop with one cashier.</p>
+                    <p><strong>ASGI:</strong> Asynchronous (Concurrent). Like a restaurant where one waiter takes many orders while food is cooking.</p>
+                </div>
+                <p>FastAPI uses <strong>Uvicorn</strong> (ASGI) to handle thousands of requests at once.</p>
+            </section>
+
+            <section id="http-tools">
+                <span class="section-number">MODULE 2.4</span>
+                <h2>Python HTTP Tools</h2>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">import requests
+
+# The famous 'requests' library
+response = requests.get("https://api.github.com/users/ali")
+data = response.json()
+print(data["name"])</code></pre>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

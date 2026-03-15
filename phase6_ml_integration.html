@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 6: ML Integration - ML Backend Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    <div class="wrapper">
+        <aside>
+            <h2>ML Integration</h2>
+            <nav>
+                <ul>
+                    <li><a href="index.html">🏠 Dashboard</a></li>
+                    <li><a href="#serving">6.2 Serving Models</a></li>
+                    <li><a href="#claude">6.3 Claude API</a></li>
+                    <li><a href="#async-ml">6.4 Async ML</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <section id="claude">
+                <span class="section-number">MODULE 6.3</span>
+                <h1>Coding with Claude API</h1>
+                <div class="box what-is-this">
+                    <p><strong>LLM APIs:</strong> These allow your backend to "think." You send a prompt, and Claude sends back structured text or code. We use the <code>anthropic</code> Python library.</p>
+                </div>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic()
+
+message = client.messages.create(
+    model="claude-3-5-sonnet-20240620",
+    max_tokens=1024,
+    messages=[{"role": "user", "content": "Hello, Claude"}]
+)</code></pre>
+                </div>
+            </section>
+
+            <section id="async-ml">
+                <span class="section-number">MODULE 6.4</span>
+                <h2>Async ML Processing</h2>
+                <div class="box warning">
+                    <p><strong>CRITICAL:</strong> ML inference (NumPy/PyTorch) is CPU-intensive. If you run it inside an <code>async def</code>, it will block the whole server. Always use <code>run_in_executor</code> or a background worker like Celery.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="main.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
