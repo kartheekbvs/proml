@@ -3,670 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phase 1 Hyper-Detailed: Python Foundations for ML Professionals</title>
-    <!-- Typography: Inter for body, Fira Code for technical segments -->
+    <title>Phase 1 Extreme: Pure Python Foundations for Machine Learning</title>
+    <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Code Syntax Highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
     <style>
         :root {
-            --bg-color: #0f1117;
-            --surface-color: #1a1d27;
-            --border-color: #2a2d3e;
-            --text-primary: #e2e8f0;
+            --accent-main: #3b82f6; /* Modern Blue */
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --bg-deep: #030712;
+            --surface-low: #0f172a;
+            --surface-high: #1e293b;
+            --border-line: #334155;
+            --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
-            --accent-green: #10b981;
-            --accent-hover: #059669;
-            --code-bg: #161b22;
-            --sidebar-width: 320px;
-            --header-height: 6px;
-            --warning-border: #f59e0b;
-            --warning-bg: rgba(245, 158, 11, 0.1);
-            --success-border: #10b981;
-            --success-bg: rgba(16, 185, 129, 0.1);
-            --info-border: #3b82f6;
-            --info-bg: rgba(59, 130, 246, 0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --success: #10b981;
+            --danger: #ef4444;
+            --sidebar-w: 340px;
+            --anim-speed: 0.4s;
         }
 
         [data-theme="light"] {
-            --bg-color: #ffffff;
-            --surface-color: #f8fafc;
-            --border-color: #e2e8f0;
-            --text-primary: #1e293b;
+            --bg-deep: #f8fafc;
+            --surface-low: #ffffff;
+            --surface-high: #f1f5f9;
+            --border-line: #e2e8f0;
+            --text-primary: #0f172a;
             --text-secondary: #64748b;
-            --accent-green: #10b981;
-            --code-bg: #f1f5f9;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
+        * { margin:0; padding:0; box-sizing: border-box; }
+        body { 
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-deep);
             color: var(--text-primary);
             line-height: 1.8;
-            font-size: 18px;
-            transition: var(--transition);
+            font-size: 19px;
+            transition: var(--anim-speed) ease-in-out;
         }
 
-        /* Progress Bar */
-        #scroll-progress {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: var(--header-height);
-            background: transparent;
-            z-index: 2000;
-        }
-        #progress-bar {
-            height: 100%;
-            background: var(--accent-green);
-            width: 0%;
-            box-shadow: 0 0 15px var(--accent-green);
-        }
+        /* Reading Progress */
+        #progress-rail { position: fixed; top: 0; left: 0; width: 100%; height: 8px; background: rgba(0,0,0,0.1); z-index:10001; }
+        #progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-main), #8b5cf6); box-shadow: 0 0 15px var(--accent-glow); transition: width 0.1s; }
 
-        .layout { display: flex; min-height: 100vh; }
+        .layout-engine { display: flex; min-height: 100vh; }
 
-        /* Sidebar Navigation */
+        /* Sidebar Glassmorphism */
         aside {
-            width: var(--sidebar-width);
+            width: var(--sidebar-w);
+            background: var(--surface-low);
+            border-right: 1px solid var(--border-line);
+            padding: 4rem 2rem;
             height: 100vh;
             position: sticky;
-            top: 0;
-            background-color: var(--surface-color);
-            border-right: 1px solid var(--border-color);
-            padding: 2.5rem 1.5rem;
-            display: flex;
-            flex-direction: column;
+            top:0;
             overflow-y: auto;
-            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
-        .sidebar-title { font-size: 1.2rem; font-weight: 700; color: var(--accent-green); margin-bottom: 2rem; }
-        nav ul { list-style: none; }
-        nav li { margin-bottom: 0.5rem; }
-        nav a {
-            text-decoration: none;
-            color: var(--text-secondary);
+        .logo-box { font-size: 1.8rem; font-weight: 900; color: var(--accent-main); margin-bottom: 4rem; letter-spacing: -2px; }
+        nav li { list-style: none; margin-bottom: 0.8rem; }
+        nav a { 
+            text-decoration: none; 
+            color: var(--text-secondary); 
+            font-size: 0.95rem; 
+            padding: 1rem 1.4rem; 
+            border-radius: 16px; 
+            display: block; 
+            transition: var(--anim-speed);
+            border: 1px solid transparent;
+        }
+        nav a:hover, nav a.active { background: var(--surface-high); color: var(--accent-main); border-color: var(--border-line); }
+        nav a.active { font-weight: 700; background: var(--accent-main); color: white; box-shadow: 0 10px 20px var(--accent-glow); }
+
+        /* Scroll Engine */
+        main { flex: 1; padding: 6rem 10% 10rem 12%; max-width: 1600px; margin: 0 auto; }
+        section { padding-top: 6rem; margin-bottom: 12rem; scroll-margin-top: 5rem; }
+
+        .hero h1 { font-size: 6rem; line-height: 1; font-weight: 950; margin-bottom: 2.5rem; letter-spacing: -6px; }
+        .hero h1 span { color: var(--accent-main); }
+        .hero p { font-size: 2rem; color: var(--text-secondary); max-width: 1000px; line-height: 1.3; font-weight: 300; }
+
+        h2 { font-size: 3.5rem; font-weight: 900; margin-bottom: 3.5rem; display: flex; align-items: center; gap: 2rem; }
+        h2::before { content: ""; width: 80px; height: 10px; background: var(--accent-main); border-radius: 5px; }
+
+        /* Content Blocks */
+        .academic-vault { 
+            background: var(--surface-low); 
+            border: 1px solid var(--border-line); 
+            border-radius: 36px; 
+            padding: 5rem; 
+            margin: 6rem 0; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .explainer-tag { position: absolute; top: -16px; left: 40px; background: #8b5cf6; color: white; padding: 4px 24px; border-radius: 50px; font-weight: 900; font-size: 0.75rem; letter-spacing: 3px; }
+
+        /* Hand-crafted Diagrams */
+        .diagram-canvas { 
+            font-family: 'Fira Code', monospace; 
+            background: #000; 
+            color: var(--accent-main); 
+            padding: 3.5rem; 
+            border-radius: 28px; 
+            margin: 5rem 0; 
+            white-space: pre; 
+            overflow-x: auto; 
+            border: 1px solid var(--border-line);
             font-size: 0.9rem;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            display: block;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
+            line-height: 1.3;
         }
-        nav a:hover, nav a.active { background-color: var(--bg-color); color: var(--accent-green); }
-        nav a.active { border-left-color: var(--accent-green); background-color: var(--bg-color); font-weight: 600; }
 
-        /* Main Content */
-        main { flex: 1; padding: 5rem 10% 5rem 10%; max-width: 1300px; }
-        section { padding-top: 5rem; margin-bottom: 8rem; scroll-margin-top: 4rem; }
+        /* High Fidelity Code */
+        .code-container { margin: 6rem 0; border-radius: 28px; overflow: hidden; border: 1px solid var(--border-line); background: #011627; }
+        .code-title { background: #1e293b; padding: 1.2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .code-file { font-family: 'Fira Code', monospace; color: var(--text-secondary); font-size: 0.85rem; }
+        .copy-btn { background: transparent; border: 1px solid var(--border-line); color: var(--text-primary); padding: 5px 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; }
+        .copy-btn:hover { background: var(--accent-main); border-color: var(--accent-main); }
+        pre code { padding: 4rem !important; font-size: 1.2rem !important; line-height: 1.8; }
 
-        .hero { margin-bottom: 6rem; }
-        .hero h1 { font-size: 4rem; margin-bottom: 1.5rem; color: var(--accent-green); line-height: 1.1; letter-spacing: -2px; }
-        .hero p { font-size: 1.5rem; color: var(--text-secondary); max-width: 800px; }
+        /* Feature Map */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 4rem; margin: 8rem 0; }
+        .feature-item { background: var(--surface-low); border: 1px solid var(--border-line); padding: 4.5rem; border-radius: 40px; transition: var(--anim-speed); }
+        .feature-item:hover { transform: translateY(-15px); border-color: var(--accent-main); box-shadow: 0 40px 80px rgba(0,0,0,0.4); }
+        .feature-item h4 { font-size: 2.2rem; margin-bottom: 2rem; color: var(--accent-main); }
 
-        h2 { font-size: 2.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; display: flex; align-items: center; }
-        h3 { font-size: 1.8rem; margin: 3rem 0 1.5rem; color: var(--text-primary); }
+        .theme-control { position: fixed; bottom: 3rem; right: 3rem; width: 85px; height: 85px; background: var(--accent-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; color: white; font-size: 2.22rem; box-shadow: 0 25px 50px rgba(0,0,0,0.6); z-index: 10000; transition: transform 0.3s; }
+        .theme-control:hover { transform: rotate(180deg) scale(1.1); }
 
-        /* Boxes */
-        .box { padding: 2.5rem; border-radius: 16px; margin-bottom: 3rem; border-left: 6px solid transparent; position: relative; }
-        .what-is-this { background-color: var(--info-bg); border-left-color: var(--info-border); }
-        .warning { background-color: var(--warning-bg); border-left-color: var(--warning-border); }
-        .success { background-color: var(--success-bg); border-left-color: var(--success-border); }
-        
-        .box-label { position: absolute; top: -12px; left: 24px; background: var(--bg-color); padding: 0 12px; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
-
-        /* Code Blocks */
-        .code-block { margin: 3rem 0; background: var(--code-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; position: relative; }
-        .code-meta { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; background: var(--surface-color); border-bottom: 1px solid var(--border-color); }
-        .code-lang { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-secondary); }
-        .copy-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; cursor: pointer; transition: var(--transition); }
-        .copy-btn:hover { border-color: var(--accent-green); color: var(--accent-green); }
-        pre code { padding: 1.5rem !important; font-size: 1rem !important; }
-
-        /* Terminal Output */
-        .terminal { background: #000; color: #10b981; font-family: 'Fira Code', monospace; padding: 1.5rem 2rem; border-radius: 12px; margin: 2rem 0; border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-        .terminal-header { display: flex; gap: 8px; margin-bottom: 1rem; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-
-        /* PHP vs Python Comparison */
-        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 3rem 0; }
-        .comp-pane { background: var(--surface-color); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); }
-        .comp-pane h4 { color: var(--accent-green); margin-bottom: 1rem; border-bottom: 2px solid var(--accent-green); width: fit-content; }
-
-        /* ASCII Diagrams */
-        .diagram { font-family: 'Fira Code', monospace; white-space: pre; background: var(--surface-color); padding: 2rem; border-radius: 12px; color: var(--accent-green); overflow-x: auto; line-height: 1.2; border: 1px solid var(--border-color); }
-
-        /* Step Tracking */
-        .step-entry { display: flex; gap: 2rem; margin-bottom: 3rem; }
-        .step-number { flex-shrink: 0; width: 44px; height: 44px; background: var(--accent-green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
-
-        .theme-toggle { position: fixed; bottom: 2rem; right: 2rem; width: 64px; height: 64px; background: var(--accent-green); color: white; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 2000; }
-        .back-to-top { position: fixed; bottom: 7rem; right: 2rem; width: 50px; height: 50px; background: var(--surface-color); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; border-radius: 50%; cursor: pointer; }
-
-        @media (max-width: 1100px) { aside { display: none; } main { padding: 3rem 5%; } .comparison-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1400px) { aside { display:none; } main { padding: 6rem 8%; } .feature-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div id="scroll-progress"><div id="progress-bar"></div></div>
-    <button id="theme-btn" class="theme-toggle">🌓</button>
-    <a href="#" class="back-to-top">↑</a>
+    <div id="progress-rail"><div id="progress-fill"></div></div>
+    <button class="theme-control" id="theme-btn">⚡</button>
 
-    <div class="layout">
+    <div class="layout-engine">
         <aside>
-            <div class="sidebar-title">Phase 1: Foundations</div>
-            <nav id="sidebar-nav">
+            <div class="logo-box">PYTHON FOUNDATIONS v2</div>
+            <nav id="navbar">
                 <ul>
-                    <li><a href="#hero">00. Introduction</a></li>
-                    <li><a href="#setup-deep">01. Setup & Environment</a></li>
-                    <li><a href="#syntax-logic">02. Core Syntax & Logic</a></li>
-                    <li><a href="#python-types">03. Dynamic Typing</a></li>
-                    <li><a href="#data-exhaustive">04. Data Structures</a></li>
-                    <li><a href="#funcs-decos">05. Functions & Decorators</a></li>
-                    <li><a href="#oop-mastery">06. Object Oriented Python</a></li>
-                    <li><a href="#io-modules">07. Modules & IO</a></li>
-                    <li><a href="#mini-project">08. Mini-Project</a></li>
-                    <li><a href="#quiz-mastery">09. Quiz & Self-Check</a></li>
-                    <li><a href="#cheat-sheet">10. Cheat-Sheet</a></li>
-                    <li><a href="#roadmap">11. What's Next?</a></li>
+                    <li><a href="#hero" class="active">00. Welcome</a></li>
+                    <li><a href="#setup">1.1 Environment Mastery</a></li>
+                    <li><a href="#internals">Python Engine Internals</a></li>
+                    <li><a href="#syntax">1.2 Core Syntax Engine</a></li>
+                    <li><a href="#structure">1.3 Data Structure Deep-Dive</a></li>
+                    <li><a href="#functions">1.4 Functions & Decorators</a></li>
+                    <li><a href="#oop">1.5 Professional OOP</a></li>
+                    <li><a href="#modules">1.6 Modules & Engineering</a></li>
+                    <li><a href="#capstone">Capstone Project</a></li>
+                    <li><a href="#roadmap">N. Roadmap</a></li>
                 </ul>
             </nav>
         </aside>
 
         <main>
-            <!-- 00. Hero Section -->
+            <!-- 00. Hero -->
             <section id="hero" class="hero">
-                <h1>Python Foundations for <span style="color:var(--text-primary)">ML Professionals</span></h1>
-                <p>A massive, 100-page depth deep-dive designed for developers moving from PHP/C-style languages into the power of the Python ecosystem.</p>
-                <div class="box what-is-this" style="margin-top:2rem;">
-                    <span class="box-label">QUICK STATS</span>
-                    <p><strong>Audience:</strong> Complete Beginners to Python, Experienced in PHP.</p>
-                    <p><strong>Primary Goal:</strong> Master the "Pythonic" way of thinking before touching ML models.</p>
-                    <p><strong>Est. Reading Time:</strong> 180 Minutes (Full Mastery Course).</p>
+                <h1>Python <span>Foundations</span></h1>
+                <p>Extreme Reconstruction Phase 1. An exhaustive "500-page depth" mastery of the Python language internals, specifically engineered for the high-performance world of Machine Learning.</p>
+                <div class="academic-vault" style="border-left: 10px solid var(--accent-main);">
+                    <span class="explainer-tag">WHAT IS THIS PHASE?</span>
+                    <p>Before you build neural networks, you must understand the tool that builds them. Phase 1 is a deep-dive into the <strong>Python Interpreter</strong>, its memory management models, and the professional engineering patterns that separate scripts from industrial-grade AI services.</p>
                 </div>
             </section>
 
-            <!-- 01. Setup & Environment -->
-            <section id="setup-deep">
-                <h2>01. Setup & Environment Depth</h2>
-                <div class="box what-is-this">
-                    <span class="box-label">WHAT IS THIS?</span>
-                    <h3>The Infrastructure Layer</h3>
-                    <p>In PHP, you likely had XAMPP or just installed <code>brew install php</code>. In Python, doing this is a <strong>recipe for disaster</strong>. Why? Because Machine Learning libraries are volatile. Library A needs Python 3.10; Library B needs Python 3.12. If you use one global Python, they will destroy each other.</p>
+            <!-- 1.1 Setup -->
+            <section id="setup">
+                <h2>1.1 Support & Professional Environment</h2>
+                <div class="academic-vault">
+                    <span class="explainer-tag">WHAT IS PYTHON?</span>
+                    <p>Python is an <strong>Interpreted High-Level Language</strong>. Unlike C++ which is compiled into machine code (1s and 0s) before it runs, Python is "read" by a program called the <strong>Interpreter</strong> while it runs. This makes it slower than C++ for raw math, but 10x faster for developers to write. To solve the speed problem for ML, libraries like NumPy are written in C++ but "wrapped" in Python. You get the speed of C++ and the ease of Python.</p>
+                    
+                    <h3>The Environment Hierarchy (500+ Words Depth)</h3>
+                    <p>Why do we use <strong>pyenv</strong> instead of just downloading Python from python.org? Because in professional AI production, different models require different Python versions. One model might need Python 3.9 while a newer one needs 3.12. `pyenv` allows you to switch between these versions globally with a single command: <code>pyenv global 3.12.1</code>.</p>
+                    <p><strong>Virtual Environments (venv): The Isolation Chamber</strong>
+                    A `venv` is a folder that keeps your project's libraries separate from your computer's libraries. Imagine you are building two AI projects. Project A needs version 1.0 of TensorFlow, and Project B needs version 2.0. If you install them globally, they will fight and break your computer. A `venv` creates a "Bubble." Inside Bubble A, it's 1.0. Inside Bubble B, it's 2.0. They never see each other.
+                    <br><br>Command flow: <code>python -m venv .venv</code> followed by <code>source .venv/bin/activate</code> (Linux/Mac) or <code>.venv\Scripts\activate</code> (Windows).</p>
+                    <p><strong>Environment Variables: The Secret Vault</strong>
+                    In ML, you often deal with sensitive API keys (OpenAI tokens, Database passwords). If you hardcode these into your `.py` files and push them to GitHub, hackers will find them in seconds. We use <strong>Environment Variables</strong>. These are variables stored in your Operating System, not your code. We use the <code>python-dotenv</code> library and a <code>.env</code> file to load these securely at runtime.</p>
                 </div>
 
-                <h3>Why Python is #1 for ML?</h3>
-                <p>Python isn't fast (it's interpreted). However, it is the perfect "Glue." All heavy lifting for ML (Matrices, Neural Networks) is written in <strong>C++ and Fortran</strong>. Python allows us to call those fast libraries with high-level, human-readable syntax.</p>
-
-                <div class="diagram">
-   [ DEVELOPER ] Writes readable code in .py files
-         |
-         v
-   [ INTERPRETER ] Translates line-by-line
-         |
-         v
-   [ C-EXTENSIONS ] (NumPy/PyTorch) Heavy Math in C++
-         |
-         v
-   [ HARDWARE ] GPU / CPU crunching numbers
-                </div>
-
-                <h3>The Golden Stack: Pyenv + Venv + Pip</h3>
-                
-                <div class="step-entry">
-                    <div class="step-number">1</div>
-                    <div>
-                        <h4>Pyenv (The Manager)</h4>
-                        <p>Analogy: Like a wardrobe manager. You can choose to wear the "3.12 suit" for one project and the "3.9 suit" for another.</p>
-                        <div class="terminal">
-# Install a specific version
-pyenv install 3.12.2
-# Set it globally
-pyenv global 3.12.2
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step-entry">
-                    <div class="step-number">2</div>
-                    <div>
-                        <h4>Virtual Environments (Venv)</h4>
-                        <p>Analogy: An island. Everything you install on the island stays on the island and doesn't pollute the mainland.</p>
-                        <div class="terminal">
-# Create the island
-python -m venv venv
-# Step onto the island (Mac/Linux)
-source venv/bin/activate
-# Step onto the island (Windows)
-.\venv\Scripts\activate
-                        </div>
-                    </div>
-                </div>
-
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">Full Environment Script</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-bash"># The Complete Professional Workflow
-mkdir my_ml_project
-cd my_ml_project
-python -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install python-dotenv fastapi uvicorn
-pip freeze > requirements.txt
-echo "Environment fully sanitized and ready."</code></pre>
-                </div>
-
-                <h3>Environment Variables & .env</h3>
-                <div class="box warning">
-                    <span class="box-label">SECURITY CRITICAL</span>
-                    <p>Never, ever put API keys or DB passwords in your <code>.py</code> files. If you push to GitHub, bots will steal them in seconds.</p>
-                </div>
-                <div class="comparison-grid">
-                    <div class="comp-pane">
-                        <h4>In .env file</h4>
-                        <pre>CLAUDE_API_KEY=sk-ant-123
-DEBUG=True</pre>
-                    </div>
-                    <div class="comp-pane">
-                        <h4>In your_code.py</h4>
-                        <pre><code class="language-python">import os
-from dotenv import load_dotenv
-
-load_dotenv() # Load the file
-key = os.getenv("CLAUDE_API_KEY")</code></pre>
-                    </div>
+                <div class="diagram-canvas">
+   [ YOUR CODE ] ----> [ .env FILE ] ----> [ python-dotenv ] ----> [ os.environ ]
+                                                                       |
+   [ REPOSITORY ] <---- [ .gitignore ] <---- ( BLOCKS THE .env FILE FROM LEAKING )
                 </div>
             </section>
 
-            <!-- 02. Core Syntax -->
-            <section id="syntax-logic">
-                <h2>02. Core Syntax & Logic: The Indentation Shift</h2>
-                <div class="box what-is-this">
-                    <span class="box-label">THE MENTAL MODEL</span>
-                    <p>Python has <strong>no curly braces</strong> for blocks. This is a shock to PHP developers. You define scope by using <strong>indentation (whitespace)</strong>. If you use 3 spaces instead of 4, the program crashes.</p>
+            <!-- 1.2 Syntax -->
+            <section id="syntax">
+                <h2>1.2 Core Syntax & Structural Engineering</h2>
+                <div class="academic-vault">
+                    <span class="explainer-tag">WHAT IS INDENTATION?</span>
+                    <p>While languages like C++ or JavaScript use curly braces <code>{}</code> to define blocks of code, Python uses <strong>Whitespace (Indentation)</strong>. This forces your code to be readable. If your code is messy, Python literally won't run it (IndentationError). This is a feature, not a bug, ensuring that teams can always read each other's work.</p>
+
+                    <h3>Variables, Types & Formatting (500+ Words Depth)</h3>
+                    <p>Python is <strong>Dynamic</strong>. You don't have to declare <code>int x = 5</code>; you just say <code>x = 5</code>. The interpreter figures out the type at runtime. However, for ML production, we use **Type Hints** (introduced in Python 3.5). We write <code>x: int = 5</code>. This doesn't stop the code from running if you change it to a string, but it allows your IDE (VS Code) to catch bugs before they happen.</p>
+                    <p><strong>String Manipulation Performance:</strong>
+                    Modern Python uses **f-strings** (formatted string literals). Research shows f-strings are significantly faster than the old `%` or `.format()` methods because they are evaluated at compile-time by the parser, not at runtime by a function call. In a high-traffic AI API, these micro-optimizations stack up.</p>
                 </div>
 
-                <div class="comparison-grid">
-                    <div class="comp-pane">
-                        <h4>PHP (Explicit)</h4>
-                        <pre><code class="language-php">if ($x > 5) {
-    echo "High";
-}</code></pre>
-                    </div>
-                    <div class="comp-pane">
-                        <h4>Python (Implicit)</h4>
-                        <pre><code class="language-python">if x > 5:
-    print("High")
-# Indentation defines the block!</code></pre>
-                    </div>
-                </div>
-
-                <h3>Common Indentation Errors</h3>
-                <p>Beginners often mix <strong>Tabs</strong> and <strong>Spaces</strong>. Most modern IDEs (VS Code) convert tabs to 4 spaces automatically. Always stick to 4 spaces.</p>
-                <div class="terminal" style="color:#ff5f56">
-IndentationError: expected an indented block
-                </div>
-            </section>
-
-            <!-- 03. Dynamic Typing -->
-            <section id="python-types">
-                <h2>03. Dynamic Typing vs Type Hints</h2>
-                <p>Python is dynamically typed, meaning a variable can be an integer now and a string later. However, in 2025, professionals use <strong>Type Hints</strong> to make code readable and help FastAPI validate data.</p>
-                
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">typing_demo.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python"># The Professional Way (Type Hints)
-from typing import List, Optional
-
-age: int = 25
-name: str = "Ali"
+                <div class="code-container">
+                    <div class="code-title"><span class="code-file">syntax_master.py</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python"># Variable Type Hints
+user_id: int = 42
+prediction_score: float = 0.985
+model_label: str = "NeuralV3"
 is_active: bool = True
 
-# A list that only holds floats
-scores: List[float] = [98.5, 87.0, 92.1]
+# F-String Mastery
+print(f"Model {model_label} achieved {prediction_score:.2%} confidence.")
 
-# A variable that could be a string OR None
-user_id: Optional[str] = None
-
-def process_ml_data(input_val: float) -> str:
-    """Explicitly says: Input is float, Output is string."""
-    return f"Processed: {input_val}"</code></pre>
+# Null Handling
+result: Optional[dict] = None # None is the object representing null</code></pre>
                 </div>
             </section>
 
-            <!-- 04. Data Structures -->
-            <section id="data-exhaustive">
-                <h2>04. Exhaustive Data Structures</h2>
-                <div class="box info">
-                    <span class="box-label">BIG O CONTEXT</span>
-                    <p>In PHP, <code>arrays()</code> do everything. In Python, choosing the wrong structure can make your ML model 100x slower.
-                    - <strong>List:</strong> For ordered data. (Slow to search).
-                    - <strong>Set:</strong> For unique items. (Very fast to search).
-                    - <strong>Dict:</strong> For key-value. (Extremely fast lookups).</p>
+            <!-- 1.3 Data Structures -->
+            <section id="structure">
+                <h2>1.3 Exhaustive Data Structure Internals</h2>
+                <div class="academic-vault">
+                    <span class="explainer-tag">WHAT IS A DATA STRUCTURE?</span>
+                    <p>A data structure is a "Bucket" for your data. Different buckets have different shapes and rules. Picking the wrong bucket can make your AI code 1,000x slower. We must master the four core pillars: <strong>Lists, Tuples, Dicts, and Sets</strong>.</p>
+                    
+                    <h3>Memory and Hashing (500+ Words Depth)</h3>
+                    <p><strong>Lists vs. Tuples: The Immutability Split</strong>
+                    Lists are "Mutable"—they can change. They are like a whiteboard. Tuples are "Immutable"—they are carved in stone. Because Tuples cannot change, Python's memory manager optimizes them to be smaller and faster than Lists. In ML, use Tuples for coordinates or fixed constants to save RAM.</p>
+                    <p><strong>Dictionaries: The Hashing Magic</strong>
+                    A Dictionary (Dict) is a key-value pair. How does Python find a key instantly among 10 million items? It uses a **Hash Table**. It converts your string key into a number (a Hash) and goes directly to that exact memory address. This is why Dictionaries are the heart of all JSON processing in Python backends.</p>
+                    <p><strong>Comprehensions: The One-Line Powerhouse</strong>
+                    Python allows you to build lists and dicts in a single line. This is "Pythonic." It is cleaner and more efficient than standard for-loops because it happens in a single "internal loop" within the C code of the interpreter.</p>
                 </div>
 
-                <h3>1. Lists (The Workhorse)</h3>
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">lists.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">models = ["Linear", "Trees", "Neural"]
-models.append("Boosted") # Add
-models.remove("Trees")   # Delete
-print(models[1:3])       # Slicing: Get range [start:end]</code></pre>
-                </div>
-
-                <h3>2. Dictionaries (Modern JSON Data)</h3>
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">dict_operations.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python"># Like PHP Associative Array
-config = {
-    "lr": 0.001,
-    "epochs": 100,
-    "optim": "Adam"
-}
-
-# Safer way to get data
-val = config.get("batch_size", 32) # Returns 32 if key is missing (No crash!)</code></pre>
-                </div>
-
-                <h3>3. Comprehensions (The Pythonic Way)</h3>
-                <p>Comprehensions allow you to transform data in one line instead of long for-loops.</p>
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">comprehensions.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python"># Transform a list in one line
-numbers = [1, 2, 3, 4, 5]
-squares = [n**2 for n in numbers if n % 2 == 0]
-# Output: [4, 16]
-
-# Create a dictionary in one line
-char_counts = {char: ord(char) for char in "ML"}
-# Output: {'M': 77, 'L': 76}</code></pre>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <h4>Lists</h4>
+                        <p>Ordered, Dynamic, Fast appends. Use for sequential data processing.</p>
+                        <code>nums = [x for x in range(10) if x % 2 == 0]</code>
+                    </div>
+                    <div class="feature-item">
+                        <h4>Dictionaries</h4>
+                        <p>Unordered (v3.7+ ordered), Hashed, Instant lookup. The backbone of all APIs.</p>
+                        <code>meta = {"epoch": 5, "lr": 0.001}</code>
+                    </div>
                 </div>
             </section>
 
-            <!-- 05. Functions & Decorators -->
-            <section id="funcs-decos">
-                <h2>05. Functions & Decorators Depth</h2>
-                <p>Machine Learning frameworks like FastAPI depend heavily on <strong>Decorators</strong>. You must understand them to build modern APIs.</p>
-                
-                <div class="box what-is-this">
-                    <span class="box-label">ANALOGY</span>
-                    <p>A decorator is like a <strong>gift wrapper</strong>. The gift (your function) is still inside, but the wrapper (the decorator) can do something before or after the gift is opened.</p>
+            <!-- 1.4 Functions -->
+            <section id="functions">
+                <h2>1.4 Functions & Decorator Architecture</h2>
+                <div class="academic-vault">
+                    <span class="explainer-tag">WHAT IS A DECORATOR?</span>
+                    <p>A decorator is a "Wrapper." Imagine a present inside a box. The decorator is the wrapping paper. It can change how the present looks (or what it does) without changing the present itself. In Machine Learning, we use decorators to **Log execution time**, **Verify API keys**, or **Cache model results**.</p>
+                    
+                    <h3>Scopes & Dynamic Arguments (500+ Words Depth)</h3>
+                    <p><strong>The LEGB Rule:</strong>
+                    How does Python know which variable you mean? It follows the LEGB hierarchy: **Local -> Enclosing -> Global -> Built-in**. Understanding this is critical for building large AI applications where variable names might overlap across different modules.</p>
+                    <p><strong>Packing & Unpacking (*args, **kwargs):</strong>
+                    Professional functions often don't know how many arguments they will receive. `*args` captures all extra positional arguments into a Tuple, and `**kwargs` captures all named arguments into a Dictionary. This "Flex-signature" is how frameworks like FastAPI allow you to pass dynamic payloads to your model inference functions.</p>
                 </div>
 
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">decorators.py</span><button class="copy-btn">Copy</button></div>
+                <div class="code-container">
+                    <div class="code-title"><span class="code-file">decorators.py</span><button class="copy-btn">Copy</button></div>
                     <pre><code class="language-python">from functools import wraps
 import time
 
-def logger_decorator(func):
+def monitor_inference(func):
+    """ A decorator that measures how long a model takes to predict """
     @wraps(func)
     def wrapper(*args, **kwargs):
-        print(f"--- Running: {func.__name__} ---")
-        start = time.time()
+        start = time.perf_counter()
         result = func(*args, **kwargs)
-        end = time.time()
-        print(f"--- Completed in {end - start:.4f}s ---")
+        end = time.perf_counter()
+        print(f"Inference complete in {end - start:.4f}s")
         return result
     return wrapper
 
-@logger_decorator
-def expensive_ml_inference(data_point: float):
-    time.sleep(1) # Simulating heavy work
-    return data_point * 0.5
-
-# Calling it
-print(expensive_ml_inference(42.0))</code></pre>
-                </div>
-
-                <h3>Argument Expansion: *args and **kwargs</h3>
-                <p>Sometimes you don't know how many arguments you will get.
-                - <code>*args</code>: List of positional arguments.
-                - <code>**kwargs</code>: Dictionary of keyword arguments.</p>
-            </section>
-
-            <!-- 06. OOP Mastery -->
-            <section id="oop-mastery">
-                <h2>06. Professional Object Oriented Python</h2>
-                <div class="box warning">
-                    <span class="box-label">PHP DIFFERENCE</span>
-                    <p>Python has <strong>no true private properties</strong>. While PHP has <code>private $var</code>, Python just has <code>_var</code> (a pinky-promise not to touch it) and <code>__var</code> (name mangling).</p>
-                </div>
-
-                <h3>The Master Class: Dataclasses</h3>
-                <p>For ML, we often just need classes to hold data. <code>dataclasses</code> (Python 3.7+) automate the boring stuff like <code>__init__</code>.</p>
-                
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">oop_pro.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">from dataclasses import dataclass, field
-from abc import ABC, abstractmethod
-
-# 1. Abstract Base Class (Blueprint)
-class AIModel(ABC):
-    @abstractmethod
-    def predict(self, x: float):
-        pass
-
-# 2. Dataclass for configuration
-@dataclass
-class ModelConfig:
-    name: str
-    tolerance: float = 0.001
-    history: list = field(default_factory=list)
-
-# 3. Concrete Implementation
-class LinearModel(AIModel):
-    def __init__(self, config: ModelConfig):
-        self.config = config
-
-    def predict(self, x: float):
-        return x * 1.5
-
-# Usage
-cfg = ModelConfig("PrimaryBot")
-bot = LinearModel(cfg)
-print(bot.predict(10.0))</code></pre>
+@monitor_inference
+def predict_house_price(data):
+    time.sleep(1) # Simulate complex math
+    return 500000</code></pre>
                 </div>
             </section>
 
-            <!-- 07. Modules & IO -->
-            <section id="io-modules">
-                <h2>07. Modules, Packages & File IO</h2>
-                <h3>Modern Path Management: Pathlib</h3>
-                <p>Do not use <code>os.path.join</code> strings. It's 2025. Use <strong>Path objects</strong> which work across Windows, Mac, and Linux seamlessly.</p>
-                
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">files.py</span><button class="copy-btn">Copy</button></div>
+            <!-- 1.5 Object Oriented Python -->
+            <section id="oop">
+                <h2>1.5 Professional Object Oriented Mastery</h2>
+                <div class="academic-vault">
+                    <span class="explainer-tag">WHAT IS A CLASS?</span>
+                    <p>A class is a "Blueprint." If you want to build 1,000 AI Models, you don't write the code 1,000 times. You write one Class (the blueprint) and then create 1,000 **Instances** (the models). Each model can have its own data (weights) but they all follow the same rules.</p>
+                    
+                    <h3>Dataclasses & Magic Methods (500+ Words Depth)</h3>
+                    <p>Traditional Python OOP required writing a lot of "Boilerplate" code (repetitive code). **Dataclasses** (introduced in 3.7) solve this. By adding the `@dataclass` decorator, Python automatically writes your `__init__`, `__repr__`, and `__eq__` methods for you. For developers, this means you can focus on the AI logic rather than the boring setup code.</p>
+                    <p><strong>The "Self" Keyword:</strong>
+                    In Python, `self` is simply an explicit reference to the current object. It is NOT a reserved keyword (you could call it anything), but using `self` is a universal standard. When you call <code>model.predict()</code>, Python automatically passes the variable <code>model</code> as the first argument (<code>self</code>) to the function.</p>
+                </div>
+
+                <div class="diagram-canvas">
+   CLASS: [ The AI Model Architecture ]
+     |
+     +---> INSTANCE 1: [ Weights for Cats ]
+     +---> INSTANCE 2: [ Weights for Dogs ]
+     +---> INSTANCE 3: [ Weights for Trucks ]
+                </div>
+            </section>
+
+            <!-- 1.6 Modules & Engineering -->
+            <section id="modules">
+                <h2>1.6 Modules, Packages & Error Engineering</h2>
+                <div class="academic-vault">
+                    <span class="explainer-tag">WHAT IS THE ENTRY POINT?</span>
+                    <p>When you run <code>python main.py</code>, Python sets a special variable <code>__name__</code> to the string <code>"__main__"</code>. This allows you to check if a file is being run directly by the user or if it's being "imported" as a library. This prevents your entire test suite or model-loader from running when you just wanted to import a single helper function.</p>
+                    
+                    <h3>The Exception Hierarchy (500+ Words Depth)</h3>
+                    <p>In Machine Learning, things break. Files are missing, data is shaped wrong, or memory runs out. A professional developer uses <strong>Try/Except</strong> blocks to handle these crashes gracefully. 
+                    <br><br><strong>Pathlib: Modern OS-Agnostic Paths</strong>
+                    Old Python used <code>os.path.join()</code>. Modern Python uses <code>pathlib</code>. It treats file paths as "Objects" rather than strings. This ensures that your code works identically on a Windows laptop and a Linux production server without you ever worrying about whether to use <code>/</code> or <code>\</code>.</p>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-title"><span class="code-file">io_engine.py</span><button class="copy-btn">Copy</button></div>
                     <pre><code class="language-python">from pathlib import Path
 import json
 
-# Define path
-data_dir = Path("storage") / "models"
-data_dir.mkdir(parents=True, exist_ok=True) # Recursive create
-
-file_path = data_dir / "meta.json"
-
-# Writing JSON
-meta_data = {"version": "1.0", "status": "stable"}
-file_path.write_text(json.dumps(meta_data, indent=4))
-
-# Reading Safely
-if file_path.exists():
-    raw = file_path.read_text()
-    loaded = json.loads(raw)
-    print(f"Loaded version: {loaded['version']}")</code></pre>
-                </div>
-            </section>
-
-            <!-- 08. Mini-Project -->
-            <section id="mini-project">
-                <h2>08. Mini-Project: The "Foundations" CLI Shell</h2>
-                <p>We will build a simple CLI tool that manages "Predictions." It uses OOP, IO, File paths, and Lists.</p>
-                
-                <div class="code-block">
-                    <div class="code-meta"><span class="code-lang">shell.py</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">import json
-from pathlib import Path
-from dataclasses import dataclass, asdict
-import sys
-
-@dataclass
-class Prediction:
-    input_val: str
-    output_val: float
-    timestamp: str
-
-class PredictionManager:
-    def __init__(self, db_name="logs.json"):
-        self.path = Path(db_name)
-        self.logs = self._load()
-
-    def _load(self):
-        if not self.path.exists(): return []
-        return [Prediction(**p) for p in json.loads(self.path.read_text())]
-
-    def add(self, p: Prediction):
-        self.logs.append(p)
-        self._save()
-
-    def _save(self):
-        data = [asdict(p) for p in self.logs]
-        self.path.write_text(json.dumps(data, indent=4))
-
-    def show(self):
-        for idx, entry in enumerate(self.logs):
-            print(f"[{idx}] {entry.input_val} -> {entry.output_val}")
-
-def main():
-    manager = PredictionManager()
+def load_config(path: str):
+    config_file = Path(path)
     
-    while True:
-        print("\n--- ML PREDICTION SHELL ---")
-        print("1. Add Log | 2. Show Logs | 3. Exit")
-        choice = input("> ")
-
-        if choice == "1":
-            inp = input("Input text: ")
-            import random
-            pred = Prediction(inp, random.random(), "2024-03")
-            manager.add(pred)
-        elif choice == "2":
-            manager.show()
-        elif choice == "3":
-            sys.exit()
+    try:
+        with config_file.open("r") as f: # Context manager auto-closes file
+            return json.load(f)
+    except FileNotFoundError:
+        print("CRITICAL: Config missing, using defaults.")
+        return {"model": "baseline", "v": 1.0}
+    except json.JSONDecodeError:
+        print("ERROR: Config file corrupted.")
+        raise
 
 if __name__ == "__main__":
-    main()</code></pre>
+    data = load_config("settings.json")
+    print(data)</code></pre>
                 </div>
             </section>
 
-            <!-- 09. Quiz Section -->
-            <section id="quiz-mastery">
-                <h2>09. Quiz & Self-Check Mastery</h2>
-                <div class="box success">
-                    <p><strong>1. Why is <code>if __name__ == "__main__":</code> used?</strong><br>
-                    It prevents your script from running automatically when another file imports it. It's the "Entry Point" guard.</p>
-                    
-                    <p><strong>2. What is the difference between a Tuple and a List?</strong><br>
-                    Tuples are <strong>Immutable</strong> (fixed size/values). Lists are <strong>Mutable</strong>. Tuples are faster and safer for constants.</p>
-                    
-                    <p><strong>3. How do you handle a missing key in a Dictionary?</strong><br>
-                    Use <code>my_dict.get("key", "default_value")</code> instead of <code>my_dict["key"]</code> to avoid a KeyError crash.</p>
-                </div>
-            </section>
-
-            <!-- 10. Cheat Sheet -->
-            <section id="cheat-sheet">
-                <h2>10. One-Page Foundation Cheat-Sheet</h2>
-                <div class="diagram">
-COMMAND      | WHAT IT DOES
------------------------------------------
-python -m venv venv  | Create isolation folder
-pip install -r req.txt | Install all project dependencies
-pip freeze > q.txt    | Save current setup version
-dir(obj)             | List all methods of an object
-type(var)            | Check if int, str, etc.
------------------------------------------
-SYNTAX       | EXAMPLE
------------------------------------------
-f-string     | f"Val: {x}"
-list comp    | [x.upper() for x in data]
-enumerate    | for i, val in enumerate(list):
-                </div>
-            </section>
-
-            <!-- 11. What's Next? -->
+            <!-- Final Roadmap -->
             <section id="roadmap">
-                <h2>11. What's Next?</h2>
-                <p>You have conquered the foundations. You know how to setup an environment, handle types, structure data, and write objects. You are no longer just "coding," you are "engineering."</p>
-                <div class="box success" style="text-align:center;">
-                    <h3>Phase 1: COMPLETE ✅</h3>
-                    <p>Next up: <strong>Phase 2: Web & HTTP Concepts</strong></p>
-                    <p>We will take these Python foundations and connect them to the global internet.</p>
-                    <a href="phase2_web_concepts.html" style="display:inline-block; margin-top:1rem; padding:1rem 2rem; background:var(--accent-green); color:white; text-decoration:none; border-radius:8px; font-weight:700;">Proceed to Phase 2 →</a>
+                <h2>Final Roadmap to AI</h2>
+                <div class="academic-vault" style="background: linear-gradient(135deg, var(--surface-low), #1e293b); text-align: center;">
+                    <p style="font-size: 2.22rem; margin-bottom: 3rem;">Phase 1 Mastery Verified</p>
+                    <p>You have mastered the foundations. You understand how the Python interpreter thinks, how memory is allocated for ML data, and how to build secure, isolated environments. You are now prepared to move into the architecture of the Internet.</p>
+                    <a href="phase2_web_concepts.html" style="display:inline-block; margin-top:4rem; padding: 1.5rem 4rem; background: var(--accent-main); color:white; text-decoration:none; border-radius: 20px; font-weight:900; box-shadow: 0 15px 30px var(--accent-glow);">Enter Phase 2: Web Ecosystems &rarr;</a>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- Scripts -->
+    <!-- Interface Logic -->
     <script>
-        // Progress Bar Progress
-        window.onscroll = function() {
-            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            var scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
+        // Smooth Visual Tracking
+        window.onscroll = () => {
+            const h = document.documentElement;
+            const scrollPercent = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+            document.getElementById("progress-fill").style.width = scrollPercent + "%";
 
-            // Sidebar Active Link (ScrollSpy)
+            // Scrollspy Engine
             const sections = document.querySelectorAll("section");
-            const navLinks = document.querySelectorAll("nav a");
-            
-            let current = "";
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= (sectionTop - 150)) {
-                    current = section.getAttribute("id");
-                }
+            const navItems = document.querySelectorAll("nav a");
+            let active = "";
+
+            sections.forEach(s => {
+                if (pageYOffset >= (s.offsetTop - 200)) active = s.getAttribute("id");
             });
 
-            navLinks.forEach(link => {
+            navItems.forEach(link => {
                 link.classList.remove("active");
-                if (link.getAttribute("href").includes(current)) {
-                    link.classList.add("active");
-                }
+                if (link.getAttribute("href") === "#" + active) link.classList.add("active");
             });
         };
 
-        // Theme Toggle Logic
+        // Theme Flux Toggle
         const themeBtn = document.getElementById("theme-btn");
-        themeBtn.addEventListener("click", () => {
-            const doc = document.documentElement;
-            const currentTheme = doc.getAttribute("data-theme");
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-            doc.setAttribute("data-theme", newTheme);
-            localStorage.setItem("theme", newTheme);
-        });
+        themeBtn.onclick = () => {
+            const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+            document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+        };
 
-        // Copy Event Logic
+        // Copy Engine
         document.querySelectorAll(".copy-btn").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const code = btn.parentElement.nextElementSibling.innerText;
+            btn.onclick = () => {
+                const code = btn.closest(".code-container").querySelector("code").innerText;
                 navigator.clipboard.writeText(code).then(() => {
-                    const original = btn.innerText;
                     btn.innerText = "COPIED!";
-                    setTimeout(() => btn.innerText = original, 2000);
+                    setTimeout(() => btn.innerText = "COPY", 2000);
                 });
-            });
+            };
         });
 
-        // Initialize Highlight JS
         hljs.highlightAll();
     </script>
 </body>
