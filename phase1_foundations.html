@@ -3,152 +3,565 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phase 1: Python Foundations - ML Backend Pro</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <title>Phase 1: Python Foundations - Zero to ML Ready</title>
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Code Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f1117;
+            --surface-color: #1a1d27;
+            --border-color: #2a2d3e;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --accent-color: #10b981;
+            --accent-hover: #059669;
+            --code-bg: #161b22;
+            --sidebar-width: 300px;
+            --header-height: 5px;
+            --warning-border: #f59e0b;
+            --warning-bg: rgba(245, 158, 11, 0.1);
+            --success-border: #10b981;
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --info-border: #3b82f6;
+            --info-bg: rgba(59, 130, 246, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #ffffff;
+            --surface-color: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent-color: #10b981;
+            --code-bg: #f1f5f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: transparent;
+            z-index: 1000;
+        }
+
+        #progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* Layout */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        aside {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            display: block;
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+        }
+
+        nav a.active {
+            font-weight: 600;
+            border-left: 3px solid var(--accent-color);
+            padding-left: calc(0.8rem - 3px);
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 4rem 10%;
+            max-width: 1200px;
+        }
+
+        section {
+            padding-top: 4rem;
+            margin-bottom: 6rem;
+            scroll-margin-top: 4rem;
+        }
+
+        h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--accent-color); }
+        h2 { font-size: 2.25rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--accent-color); }
+
+        .box { padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid transparent; }
+        .what-is-this { background-color: var(--info-bg); border-left-color: var(--info-border); }
+        .warning { background-color: var(--warning-bg); border-left-color: var(--warning-border); }
+        .success { background-color: var(--success-bg); border-left-color: var(--success-border); }
+
+        .terminal { background: #000; color: #10b981; font-family: 'Fira Code', monospace; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; position: relative; }
+        .terminal::before { content: "TERMINAL"; position: absolute; top: 5px; right: 10px; font-size: 0.7rem; color: #444; }
+
+        .code-block { position: relative; margin-bottom: 2rem; border-radius: 12px; overflow: hidden; background-color: var(--code-bg); border: 1px solid var(--border-color); }
+        .code-header { padding: 0.5rem 1rem; background: var(--surface-color); display: flex; justify-content: space-between; font-size: 0.8rem; }
+        .copy-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); cursor: pointer; padding: 2px 8px; border-radius: 4px; }
+
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+        .comp-box { background: var(--surface-color); padding: 1rem; border-radius: 8px; }
+        
+        .ascii-art { font-family: 'Fira Code', monospace; white-space: pre; background: var(--code-bg); padding: 1rem; border-radius: 8px; color: var(--accent-color); font-size: 0.8rem; line-height: 1.2; overflow-x: auto; }
+
+        .step-circle { width: 30px; height: 30px; background: var(--accent-color); color: white; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold; }
+
+        .theme-toggle { position: fixed; bottom: 2rem; right: 2rem; width: 50px; height: 50px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; z-index: 1000; color: white; }
+
+        @media (max-width: 1024px) {
+            aside { display: none; }
+            main { padding: 2rem 5%; }
+            .comparison { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
-    <div id="progress-bar"></div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <button class="theme-toggle" id="theme-toggle">🌓</button>
+
     <div class="wrapper">
         <aside>
-            <h2>Foundations</h2>
             <nav>
                 <ul>
-                    <li><a href="index.html">🏠 Dashboard</a></li>
-                    <li><a href="#setup" class="active">1.1 Setup & Env</a></li>
-                    <li><a href="#syntax">1.2 Core Syntax</a></li>
-                    <li><a href="#data-structures">1.3 Data Structures</a></li>
-                    <li><a href="#functions">1.4 Functions</a></li>
-                    <li><a href="#oop">1.5 OOP in Python</a></li>
-                    <li><a href="#modules">1.6 Modules & Files</a></li>
+                    <li><a href="#hero">00. Welcome</a></li>
+                    <li><a href="#bg">01. Why Python?</a></li>
+                    <li><a href="#core">02. The Core Concept</a></li>
+                    <li><a href="#mental">03. Mental Model</a></li>
+                    <li><a href="#minimum">04. Minimum Code</a></li>
+                    <li><a href="#walkthrough">05. Walkthrough</a></li>
+                    <li><a href="#run">06. How to Run</a></li>
+                    <li><a href="#setup">09. Setup & Env</a></li>
+                    <li><a href="#syntax">10. Core Syntax</a></li>
+                    <li><a href="#structures">11. Data Structures</a></li>
+                    <li><a href="#functions">12. Functions</a></li>
+                    <li><a href="#oop">13. OOP</a></li>
+                    <li><a href="#modules">14. Modules</a></li>
+                    <li><a href="#project">N-3. Mini Project</a></li>
+                    <li><a href="#quiz">N-2. Quiz</a></li>
+                    <li><a href="#cheat">N-1. Cheat Sheet</a></li>
+                    <li><a href="#next">N. Next Steps</a></li>
                 </ul>
             </nav>
         </aside>
+
         <main>
-            <section id="setup">
-                <span class="section-number">MODULE 1.1</span>
-                <h1>Setup & Environment</h1>
+            <section id="hero">
+                <h1>Phase 1: Python Foundations</h1>
+                <p>Zero to comfortable. Move from PHP's world into the powerhouse of Machine Learning.</p>
                 <div class="box what-is-this">
-                    <p><strong>What is this?</strong> Python setup is about creating a clean, isolated workspace for your project. Think of it like a chef having a dedicated cutting board for raw meat and another for vegetables. We don't want library versions from one project messing up another.</p>
+                    <p><strong>Prerequisites:</strong> Basic logic, know what a variable is in PHP.</p>
+                    <p><strong>Estimated Reading Time:</strong> 120 minutes</p>
                 </div>
-                
-                <h3>Virtual Environments (The Secret Sauce)</h3>
-                <p>In PHP, you might have global extensions. In Python, we use <strong>venv</strong>.</p>
+            </section>
+
+            <section id="bg">
+                <h2>01. Why Python for ML?</h2>
+                <div class="box info">
+                    <p><strong>Is Python slow?</strong> Yes, the core engine is slower than C++ or Java. 
+                    <strong>Then why ML?</strong> Because Python acts as a "wrapper." The heavy math happens in C++ (inside libraries like NumPy), but we control it with easy, readable Python code.</p>
+                </div>
+                <div class="comparison">
+                    <div class="comp-box">
+                        <strong>In PHP:</strong> You build web pages. Focus is on Request/Response. Strong in templates.
+                    </div>
+                    <div class="comp-box">
+                        <strong>In Python:</strong> You build models & logic. Focus is on data manipulation. Strong in math & AI.
+                    </div>
+                </div>
+                <div class="ascii-art">
+   [ Your Python Code ]  <-- Easy to write
+           |
+   [ C++ ML Libraries ]  <-- Fast execution
+           |
+   [ GPU / Processor ]   <-- Hard work
+                </div>
+            </section>
+
+            <section id="core">
+                <h2>02. Core Concept: Readability</h2>
+                <p>Python's primary philosophy is: <strong>"Readability counts."</strong></p>
+                <div class="box what-is-this">
+                    <p><strong>What is this?</strong> Python uses whitespace (indentation) instead of curly braces <code>{}</code> or semicolons <code>;</code>. If your code isn't tidy, it won't run. This forces every developer to write clean code.</p>
+                </div>
+            </section>
+
+            <section id="mental">
+                <h2>03. Mental Model: The Executive Assistant</h2>
+                <p>If PHP is like a <strong>Web Concierge</strong> (handling guests/browsers), Python is like an <strong>Executive Assistant</strong> for a Data Scientist. It's smart, understands high-level instructions, and converts your messy notes (data) into clean reports (models).</p>
+            </section>
+
+            <section id="minimum">
+                <h2>04. Absolute Minimum Working Code</h2>
+                <p>Every Python script starts with a simple <code>.py</code> file. No boilerplate needed.</p>
                 <div class="code-block">
-                    <div class="code-header"><span>Terminal</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-bash"># Create the environment
+                    <div class="code-header"><span>hello.py</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python"># Simple script to greet and calculate
+name = "Ali"
+age = 25
+print(f"Hello {name}, in 5 years you will be {age + 5}")
+
+# List of ML topics
+topics = ["Foundations", "FastAPI", "Deployment"]
+
+# Loop through (PHP's foreach)
+for topic in topics:
+    print(f"Learning: {topic}")</code></pre>
+                </div>
+            </section>
+
+            <section id="walkthrough">
+                <h2>05. Line-by-Line Walkthrough</h2>
+                <div class="step">
+                    <span class="step-circle">1</span> <code>name = "Ali"</code>: Variables don't need <code>$</code>.
+                </div>
+                <div class="step">
+                    <span class="step-circle">2</span> <code>print(f"...")</code>: This is an <strong>f-string</strong>. Like PHP's <code>"{$var}"</code> but cleaner.
+                </div>
+                <div class="step">
+                    <span class="step-circle">3</span> <code>for topic in topics:</code>: Note the <strong>colon</strong> at the end. That means "start of block."
+                </div>
+            </section>
+
+            <section id="run">
+                <h2>06. How to Run It</h2>
+                <div class="terminal">
+python hello.py
+                </div>
+                <div class="box warning">
+                    <p><strong>IndentationError?</strong> If you get this, check your spaces. Python strictly requires 4 spaces for every level of code inside a block.</p>
+                </div>
+            </section>
+
+            <section id="setup">
+                <h2>09. Sub-Topic: Setup & Environment</h2>
+                <h3>Why not just install Python?</h3>
+                <p>If you install it globally, one project might need version 3.10 and another needs 3.12. They will fight. We use <strong>Virtual Environments</strong> to keep them separate.</p>
+                <div class="terminal">
+# Create a private folder for libraries
 python -m venv venv
 
-# Activate it
-source venv/bin/activate  # Mac/Linux
-.\venv\Scripts\activate   # Windows</code></pre>
-                </div>
+# "Activate" it (Windows)
+.\venv\Scripts\activate
 
-                <h3>Environment Variables (.env)</h3>
-                <p>Never hardcode API keys. Use <code>python-dotenv</code>.</p>
-                <div class="code-block">
-                    <div class="code-header"><span>.env</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-text">API_KEY=your_secret_key_here
-DEBUG=True</code></pre>
+# Install a library (Like Composer)
+pip install python-dotenv
+                </div>
+                <div class="box success">
+                    <p><strong>Tip:</strong> Always look for the <code>(venv)</code> prefix in your terminal to know you are "inside" your project bubble.</p>
                 </div>
             </section>
 
             <section id="syntax">
-                <span class="section-number">MODULE 1.2</span>
-                <h2>Core Syntax (vs PHP)</h2>
-                <div class="box what-is-this">
-                    <p><strong>Python indentation:</strong> Unlike PHP which uses <code>{}</code>, Python uses 4 spaces. It's not just for style; the code won't run if it's wrong!</p>
-                </div>
-                
+                <h2>10. Sub-Topic: Core Syntax & Types</h2>
+                <p>Python has <strong>Dynamic Typing</strong>. This means a variable can hold a string now and a number later (just like PHP).</p>
                 <div class="code-block">
-                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python"># Variable declaration (no $)
-name = "Ali"
-age = 25
+                    <div class="code-header"><span>syntax.py</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python"># Variables
+x = 10       # integer
+y = 10.5     # float
+is_ml_pro = True # boolean (starts with Capital!)
 
-# F-Strings (Modern String Formatting)
-print(f"Hello {name}, you are {age} years old.")
+# Checks type (PHP's gettype())
+print(type(x))
 
-# Type Hints (Crucial for FastAPI)
-def greet(name: str) -> str:
-    return f"Hello {name}"</code></pre>
+# Multi-line string (Triple quotes)
+query = """
+SELECT * 
+FROM users 
+WHERE age > 18
+"""</code></pre>
+                </div>
+                <div class="box what-is-this">
+                    <p><strong>None:</strong> This is Python's <code>null</code>. Use it when a variable has no value yet.</p>
                 </div>
             </section>
 
-            <section id="data-structures">
-                <span class="section-number">MODULE 1.3</span>
-                <h2>Data Structures</h2>
-                <p>Lists and Dictionaries are your bread and butter.</p>
-                <ul>
-                    <li><strong>Lists:</strong> Ordered sequences (PHP Indexed Arrays).</li>
-                    <li><strong>Dictionaries:</strong> Key-Value pairs (PHP Associative Arrays).</li>
-                </ul>
+            <section id="structures">
+                <h2>11. Sub-Topic: Data Structures</h2>
+                <h3>Lists (PHP Indexed Array)</h3>
                 <div class="code-block">
                     <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python"># List Comprehension (Python's superpower)
-nums = [1, 2, 3, 4]
-squares = [n*n for n in nums if n > 2] # [9, 16]
-
-# Dictionary
-user = {"id": 1, "name": "Ali"}
-print(user.get("age", 0)) # Safer than user["age"]</code></pre>
+                    <pre><code class="language-python">items = ["a", "b", "c"]
+items.append("d") # Add to end
+print(items[0:2]) # Slicing! Gets first two items ["a", "b"]</code></pre>
+                </div>
+                <h3>Dictionaries (PHP Associative Array)</h3>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">user = {"name": "Ali", "role": "admin"}
+print(user["name"])
+print(user.get("age", "N/A")) # Safer, won't crash if 'age' missing</code></pre>
+                </div>
+                <h3>List Comprehensions (Pure Python Magic)</h3>
+                <p>Convert lists in one line. It replaces long <code>foreach</code> loops.</p>
+                <div class="code-block">
+                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">numbers = [1, 2, 3, 4, 5]
+# Get only squares of even numbers
+evens_squared = [n * n for n in numbers if n % 2 == 0]
+# result: [4, 16]</code></pre>
                 </div>
             </section>
 
             <section id="functions">
-                <span class="section-number">MODULE 1.4</span>
-                <h2>Functions & Decorators</h2>
-                <div class="box what-is-this">
-                    <p><strong>Decorators:</strong> These are functions that "wrap" other functions to change their behavior. FastAPI uses these for routes (e.g., <code>@app.get("/")</code>).</p>
-                </div>
+                <h2>12. Sub-Topic: Functions & Decorators</h2>
                 <div class="code-block">
-                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">def logger(func):
-    def wrapper(*args, **kwargs):
-        print(f"Calling {func.__name__}")
-        return func(*args, **kwargs)
-    return wrapper
+                    <div class="code-header"><span>functions.py</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python"># Function with Type Hints
+def add_numbers(a: int, b: int) -> int:
+    """Adds two integers and returns the result."""
+    return a + b
 
-@logger
-def add(a, b):
-    return a + b</code></pre>
+# Arguments: Positional and Keyword
+result = add_numbers(b=10, a=5) # Keyword order doesn't matter</code></pre>
+                </div>
+                <div class="box what-is-this">
+                    <p><strong>Decorators:</strong> These are "meta" functions. In FastAPI, <code>@app.get("/")</code> is a decorator. It tells Python: "When someone visits the home URL, run this function."</p>
                 </div>
             </section>
 
             <section id="oop">
-                <span class="section-number">MODULE 1.5</span>
-                <h2>OOP: Classes and Data</h2>
+                <h2>13. Sub-Topic: OOP & Dataclasses</h2>
+                <p>Python doesn't use <code>public</code>/<code>private</code> keywords. It uses <strong>underscores</strong>: <code>_name</code> means "don't touch me directly."</p>
                 <div class="code-block">
-                    <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
+                    <div class="code-header"><span>oop.py</span><button class="copy-btn">Copy</button></div>
                     <pre><code class="language-python">from dataclasses import dataclass
 
 @dataclass
-class User:
-    id: int
+class ModelInfo:
     name: str
+    version: float
+    is_ready: bool = False
 
-# No need for manual __init__!
-new_user = User(id=1, name="Ali")</code></pre>
+# Automatic constructor!
+m = ModelInfo(name="SentimentBot", version=1.2)
+print(m)</code></pre>
                 </div>
             </section>
 
             <section id="modules">
-                <span class="section-number">MODULE 1.6</span>
-                <h2>Modules & File I/O</h2>
+                <h2>14. Sub-Topic: Modules & Files</h2>
+                <h3>Pathlib: The Modern Way</h3>
+                <p>Forget messy string paths. Use the <strong>Path</strong> object.</p>
                 <div class="code-block">
                     <div class="code-header"><span>python</span><button class="copy-btn">Copy</button></div>
-                    <pre><code class="language-python">import json
+                    <pre><code class="language-python">from pathlib import Path
 
-# Context Managers (Auto-closes file)
-with open("data.json", "r") as f:
-    data = json.load(f)</code></pre>
+# Create a path regardless of Windows/Mac
+data_file = Path("data") / "results.csv"
+
+# Error Handling (Try/Catch)
+try:
+    with open(data_file, "r") as f:
+        print(f.read())
+except FileNotFoundError:
+    print("Oops! File is missing.")</code></pre>
+                </div>
+            </section>
+
+            <section id="project">
+                <h2>N-3. Mini Project: ML Model Registry CLI</h2>
+                <p>Let's build a small tool that stores and lists ML models in a JSON file.</p>
+                <div class="code-block">
+                    <div class="code-header"><span>registry.py</span><button class="copy-btn">Copy</button></div>
+                    <pre><code class="language-python">import json
+from pathlib import Path
+from dataclasses import dataclass, asdict
+
+# 1. Define the Data Structure
+@dataclass
+class MLModel:
+    name: str
+    accuracy: float
+    framework: str
+
+# 2. Storage Setup
+STORAGE_FILE = Path("models.json")
+
+def save_model(model: MLModel):
+    # Load existing or empty list
+    if STORAGE_FILE.exists():
+        models = json.loads(STORAGE_FILE.read_text())
+    else:
+        models = []
+    
+    # Add new model (convert dataclass to dict)
+    models.append(asdict(model))
+    STORAGE_FILE.write_text(json.dumps(models, indent=4))
+    print(f"✅ Model '{model.name}' saved!")
+
+def list_models():
+    if not STORAGE_FILE.exists():
+        print("No models found.")
+        return
+    
+    models = json.loads(STORAGE_FILE.read_text())
+    print("\n--- Registered Models ---")
+    for m in models:
+        print(f"[{m['framework']}] {m['name']} - Acc: {m['accuracy']*100}%")
+
+# 3. Simple CLI Interface
+if __name__ == "__main__":
+    # Test adding a model
+    new_m = MLModel(name="CatDetector", accuracy=0.98, framework="PyTorch")
+    save_model(new_m)
+    list_models()</code></pre>
+                </div>
+            </section>
+
+            <section id="quiz">
+                <h2>N-2. Quiz & Interview Questions</h2>
+                <div class="box info">
+                    <p><strong>1. Why is <code>__init__</code> used in classes?</strong><br>
+                    It's the constructor. It runs as soon as you create an object. (Like <code>__construct</code> in PHP).</p>
+                    
+                    <p><strong>2. What is a "Mutable" object?</strong><br>
+                    Something that can change. <strong>Lists</strong> are mutable. <strong>Tuples</strong> are NOT (Immutable).</p>
+                    
+                    <p><strong>3. What happens if you miss an indent?</strong><br>
+                    Python raises an <code>IndentationError</code> and the script crashes immediately.</p>
+                </div>
+            </section>
+
+            <section id="cheat">
+                <h2>N-1. One-Page Cheat Sheet</h2>
+                <div class="ascii-art">
+   TYPE           EXAMPLES                    PHP EQUIV
+   ---            ---                         ---
+   int            5, 10, -3                   int
+   float          3.14, 0.001                 float
+   str            "Hello", 'World'            string
+   bool           True, False                 bool
+   list           [1, 2, 3]                   [1,2,3]
+   dict           {"a": 1}                    ["a"=>1]
+   None           None                        null
+                </div>
+            </section>
+
+            <section id="next">
+                <h2>N. What Comes Next?</h2>
+                <p>Congratulations! You have mastered the base. Next, we leave the CLI and move to the <strong>Web</strong>. In Phase 2, we will look at how Python communicates with the internet via HTTP.</p>
+                <div class="box success">
+                    <p><strong>Ready for Phase 2?</strong> <a href="phase2_web_concepts.html">Let's go!</a></p>
                 </div>
             </section>
         </main>
     </div>
-    <script src="main.js"></script>
+
+    <script>
+        // Progress Bar
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+            
+            // Sidebar Spy
+            const sections = document.querySelectorAll("section");
+            const navLinks = document.querySelectorAll("nav a");
+            
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 150)) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(current)) {
+                    link.classList.add("active");
+                }
+            });
+        };
+
+        // Theme Toggle
+        const btn = document.getElementById("theme-toggle");
+        btn.addEventListener("click", () => {
+            const current = document.documentElement.getAttribute("data-theme");
+            document.documentElement.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+        });
+
+        // Copy Code
+        document.querySelectorAll(".copy-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const code = btn.parentElement.nextElementSibling.innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                    const old = btn.innerText;
+                    btn.innerText = "Copied!";
+                    setTimeout(() => btn.innerText = old, 2000);
+                });
+            });
+        });
+
+        // Search Filter
+        document.getElementById("sidebar-search")?.addEventListener("input", (e) => {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll("nav li").forEach(li => {
+                li.style.display = li.innerText.toLowerCase().includes(term) ? "block" : "none";
+            });
+        });
+    </script>
     <script>hljs.highlightAll();</script>
 </body>
 </html>
